@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamTroll - La Mejor Herramienta para Trollear Streamers</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        @keyframes bgPan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            line-height: 1.6;
+            background: radial-gradient(circle at top left, #1e1b4b, #0f172a, #312e81);
+            background-size: 200% 200%;
+            animation: bgPan 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 4rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(to right, #8b5cf6, #ec4899, #8b5cf6);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4rem;
+            margin-bottom: 6rem;
+        }
+
+        .hero-content {
+            flex: 1;
+            animation: fadeInLeft 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(to right, #fff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            margin-bottom: 2.5rem;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
+            70% { box-shadow: 0 0 20px 15px rgba(139, 92, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            text-decoration: none;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            font-size: 1.25rem;
+            font-weight: bold;
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.5);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: pulseGlow 2s infinite;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.6);
+            letter-spacing: 1px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .mockup-box {
+            flex: 1;
+            text-align: center;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 2.5rem;
+            border-radius: 24px;
+            border: 2px solid rgba(139, 92, 246, 0.4);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 20px rgba(139, 92, 246, 0.2);
+            animation: float 6s ease-in-out infinite, fadeInRight 1s ease-out;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .mockup-box::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #8b5cf6, #ec4899, #3b82f6);
+            z-index: -1;
+            border-radius: 26px;
+            opacity: 0.5;
+            filter: blur(15px);
+            animation: shine 4s linear infinite;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 6rem;
+        }
+
+        .feature-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            padding: 2.5rem;
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.2s; }
+        .feature-card:nth-child(2) { animation-delay: 0.4s; }
+        .feature-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-25deg);
+            transition: all 0.7s;
+        }
+
+        .feature-card:hover::before {
+            left: 200%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(236, 72, 153, 0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(236, 72, 153, 0.2);
+        }
+
+        .feature-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #fbbf24;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-card p {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Entry Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">StreamTroll</div>
+        </header>
+
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Trollea tu Stream al Siguiente Nivel</h1>
+                <p>La herramienta definitiva de escritorio para creadores de contenido. Shaders en vivo, mapeo de regalos de TikTok, Text-to-Speech nativo y mucho más sin caídas de FPS.</p>
+                <a href="https://github.com/MigueAngel1109/StreamTroll/releases/latest/download/StreamTroll-Setup.exe" class="btn">🚀 Descargar para Windows (Beta)</a>
+                <p style="margin-top: 1.5rem; font-size: 0.95rem; color: #64748b; font-weight: bold;">Compatible con Windows 10/11. Integración lista para OBS Studio.</p>
+            </div>
+            <div class="mockup-box">
+                <h2 style="color: #4ade80; margin-bottom: 1.5rem; font-size: 1.8rem;">🟢 Conexión Nativa Activa</h2>
+                <div style="text-align: left; background: rgba(0,0,0,0.4); padding: 1.5rem; border-radius: 12px; font-family: monospace; color: #94a3b8; line-height: 2;">
+                    <span style="color: #60a5fa;">></span> Escuchando eventos de TikTok...<br>
+                    <span style="color: #60a5fa;">></span> Regalo detectado: <strong style="color: #fbbf24;">León 🦁</strong><br>
+                    <span style="color: #60a5fa;">></span> Lanzando Shader: <strong style="color: #f87171;">Flashbang 💥</strong><br>
+                    <span style="color: #60a5fa;">></span> Alerta TTS: <strong style="color: #a78bfa;">Activada 🗣️</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- GUÍA OFICIAL PARA STREAMERS -->
+        <section style="margin-bottom: 6rem;">
+            <div style="text-align: center; max-width: 700px; margin: 0 auto 3.5rem auto;">
+                <div style="display: inline-block; background: rgba(139,92,246,0.15); color: #c084fc; border: 1px solid rgba(139,92,246,0.35); padding: 4px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 1rem;">MANUAL OFICIAL PASO A PASO</div>
+                <h2 style="font-size: 2.6rem; font-weight: 900; color: #fff; margin-bottom: 0.75rem;">Guía Rápida para Streamers</h2>
+                <p style="color: #94a3b8; font-size: 1.05rem;">Configura StreamTroll en menos de 3 minutos y empieza a monetizar tus directos de TikTok Live.</p>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 900px; margin: 0 auto;">
+                <div style="display: flex; gap: 1.5rem; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 2rem; backdrop-filter: blur(12px);">
+                    <div style="width: 50px; height: 50px; border-radius: 14px; background: rgba(139,92,246,0.3); border: 1px solid #ec4899; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.25rem; color: #fff; flex-shrink: 0;">01</div>
+                    <div>
+                        <h3 style="color: #fff; margin-bottom: 0.5rem; font-size: 1.3rem;">💻 1. Descarga e Instala la App</h3>
+                        <p style="color: #cbd5e1; margin-bottom: 0.5rem;">Descarga el instalador oficial de Windows (StreamTroll Setup 1.2.1.exe). Se instala automáticamente en segundos sin software adicional.</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1.5rem; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 2rem; backdrop-filter: blur(12px);">
+                    <div style="width: 50px; height: 50px; border-radius: 14px; background: rgba(139,92,246,0.3); border: 1px solid #ec4899; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.25rem; color: #fff; flex-shrink: 0;">02</div>
+                    <div>
+                        <h3 style="color: #fff; margin-bottom: 0.5rem; font-size: 1.3rem;">🔗 2. Conecta tu TikTok Live (Sin Contraseñas)</h3>
+                        <p style="color: #cbd5e1; margin-bottom: 0.5rem;">Escribe tu nombre de usuario público de TikTok (@tu_canal) y pulsa Conectar. Cero riesgos: nunca pedimos contraseñas.</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1.5rem; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(236,72,153,0.5); border-radius: 20px; padding: 2rem; backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(236,72,153,0.15);">
+                    <div style="width: 50px; height: 50px; border-radius: 14px; background: rgba(236,72,153,0.4); border: 1px solid #ec4899; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.25rem; color: #fff; flex-shrink: 0;">03</div>
+                    <div style="flex: 1;">
+                        <h3 style="color: #fff; margin-bottom: 0.5rem; font-size: 1.3rem;">🎥 3. Agrega la Fuente en OBS Studio o TikTok Live Studio</h3>
+                        <p style="color: #cbd5e1; margin-bottom: 0.75rem;">Añade una fuente de tipo <strong>Navegador / Enlace (Browser Source)</strong> con resolución <strong>1920x1080</strong> y pega la URL de tus efectos:</p>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 1rem;">
+                            <div style="background: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px; font-family: monospace; color: #38bdf8; font-size: 0.95rem; border: 1px solid rgba(56,189,248,0.3); display: flex; justify-content: space-between; align-items: center;">
+                                <span><strong>Efectos & Shaders:</strong> http://127.0.0.1:18923/#/overlay</span>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px; font-family: monospace; color: #ec4899; font-size: 0.95rem; border: 1px solid rgba(236,72,153,0.3); display: flex; justify-content: space-between; align-items: center;">
+                                <span><strong>Carrusel Slider:</strong> http://127.0.0.1:18923/#/slider</span>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px; font-family: monospace; color: #34d399; font-size: 0.95rem; border: 1px solid rgba(16,185,129,0.3); display: flex; justify-content: space-between; align-items: center;">
+                                <span><strong>Temporizador Subathon:</strong> http://127.0.0.1:18923/#/timer</span>
+                            </div>
+                        </div>
+
+                        <div style="background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; color: #94a3b8;">
+                            🎵 <strong>Para TikTok Live Studio:</strong> En tu escena activa, haz clic en <strong>+ Añadir Fuente</strong> ➔ selecciona <strong>"Enlace" (Custom Link)</strong> ➔ Pega la URL de Efectos con resolución <code>1920x1080</code>.
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1.5rem; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 2rem; backdrop-filter: blur(12px);">
+                    <div style="width: 50px; height: 50px; border-radius: 14px; background: rgba(139,92,246,0.3); border: 1px solid #ec4899; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.25rem; color: #fff; flex-shrink: 0;">04</div>
+                    <div>
+                        <h3 style="color: #fff; margin-bottom: 0.5rem; font-size: 1.3rem;">🎯 4. Mapea tus Regalos y ¡A Transmitir!</h3>
+                        <p style="color: #cbd5e1; margin-bottom: 0.5rem;">Elige qué regalo activa cada shader, sonido, lluvia de rosas 3D o temporizador extensible, y usa el Probador Rápido antes de salir al aire.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <h3>💥 9 Shaders Extremos</h3>
+                <p>Flashbang cegador, Terremoto 9.0, Drunk Mode, Cyber Glitch, Game Boy 8-bit, Invert Colores, Sepia Vintage y Blur. Todo renderizado por GPU sin consumir CPU.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎭 Trolls de Pantalla y Acciones</h3>
+                <p>Stream Caído Falso con estática y pitido de TV, Mandar al Escritorio (Win+D), Cerrar Juego (Alt+F4), Alt+Tab y Apagar OBS activados por regalos de TikTok.</p>
+            </div>
+            <div class="feature-card">
+                <h3>😱 Soundboard y Sustos</h3>
+                <p>Sonidos meme y sustos como Screamer agudo, Sirena FBI / Policía y Golpe a la puerta (Knock) que sonarán al instante en tu directo.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎠 Slider y Subathon Timer</h3>
+                <p>Carrusel animado de donadores en tiempo real y temporizador de subatón que añade segundos automáticamente con cada moneda donada.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🖼️ Gift Graphics 3D</h3>
+                <p>Lluvia de rosas flotantes, rugido del león 3D, despegues de cohetes y estallidos espaciales para sorprender a tu audiencia.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎵 TikTok Live Studio & OBS</h3>
+                <p>Compatible al 100% con TikTok Live Studio para PC y OBS Studio mediante fuentes de navegador locales con cero latencia.</p>
+            </div>
+        </section>
+
+        <footer>
+            <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">
+                <a href="#legal-terms" onclick="openLegalModal('terms'); return false;" style="color: #94a3b8; text-decoration: none;">📜 Términos y Condiciones</a>
+                <span style="color: rgba(255,255,255,0.2);">•</span>
+                <a href="#legal-privacy" onclick="openLegalModal('privacy'); return false;" style="color: #94a3b8; text-decoration: none;">🔒 Política de Privacidad</a>
+                <span style="color: rgba(255,255,255,0.2);">•</span>
+                <a href="#legal-disclaimer" onclick="openLegalModal('disclaimer'); return false;" style="color: #94a3b8; text-decoration: none;">⚠️ Aviso Legal (TikTok / OBS)</a>
+                <span style="color: rgba(255,255,255,0.2);">•</span>
+                <a href="#legal-refunds" onclick="openLegalModal('refunds'); return false;" style="color: #94a3b8; text-decoration: none;">💳 Reembolsos y Facturación</a>
+                <span style="color: rgba(255,255,255,0.2);">•</span>
+                <a href="#legal-cookies" onclick="openLegalModal('cookies'); return false;" style="color: #94a3b8; text-decoration: none;">🍪 Política de Cookies</a>
+            </div>
+            <p>&copy; 2026 StreamTroll. Desarrollado y operado legalmente por <strong style="color: #fbbf24;">ZENIC S.A.S</strong>. Todos los derechos reservados.</p>
+            <p style="margin-top: 6px; font-size: 0.8rem; color: #64748b;">StreamTroll es una solución de software independiente y no está afiliada ni avalada por TikTok Inc., ByteDance Ltd., ni OBS Studio.</p>
+        </footer>
+    </div>
+
+    <!-- Modal Legal Completo -->
+    <div id="legalModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 9999; justify-content: center; align-items: center; padding: 1.5rem;">
+        <div style="background: #0f172a; border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 20px; width: 100%; max-width: 800px; max-height: 85vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.8);">
+            <div style="padding: 1.25rem 1.75rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; background: rgba(30, 41, 59, 0.5);">
+                <div id="modalLegalTitle" style="font-weight: 800; font-size: 1.25rem; color: #fff;">Documento Legal</div>
+                <button onclick="closeLegalModal()" style="background: transparent; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div id="modalLegalBody" style="padding: 2rem; overflow-y: auto; line-height: 1.7; color: #cbd5e1; font-size: 0.95rem;">
+                <!-- Dinámico -->
+            </div>
+            <div style="padding: 1rem 1.75rem; border-top: 1px solid rgba(255,255,255,0.1); background: rgba(15, 23, 42, 0.8); display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.8rem; color: #64748b;">ZENIC S.A.S | Cumplimiento Legal</span>
+                <button onclick="closeLegalModal()" class="btn" style="padding: 0.6rem 1.5rem; font-size: 0.9rem;">Entendido y Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const legalDocs = {
+            terms: {
+                title: "📜 Términos y Condiciones de Uso",
+                html: "<h3>1. Aceptación</h3><p>Al descargar o utilizar StreamTroll, aceptas estos Términos de Servicio operados por <strong>ZENIC S.A.S</strong>. La herramienta se suministra bajo licencia no exclusiva para la interacción con transmisiones en directo.</p><h3>2. Uso Prohibido</h3><p>Queda prohibido el uso de la herramienta para fines difamatorios, ilícitos, acoso o violación de las Normas de la Comunidad de TikTok.</p><h3>3. Limitación de Responsabilidad</h3><p>ZENIC S.A.S no se responsabiliza por suspensiones de cuentas de streaming derivadas de infracciones cometidas por el streamer.</p>"
+            },
+            privacy: {
+                title: "🔒 Política de Privacidad y Protección de Datos",
+                html: "<h3>1. Responsable del Tratamiento</h3><p><strong>ZENIC S.A.S</strong> (soporte@zenic.com.co). Cumplimiento Ley 1581 de 2012 y normativas GDPR.</p><h3>2. Datos Tratados</h3><p>Correo de registro, usuario público de TikTok para la conexión y configuraciones guardadas en almacenamiento local. <strong>No almacenamos contraseñas de TikTok.</strong></p><h3>3. Compromiso de Cero Venta de Datos</h3><p>No comercializamos tus datos bajo ninguna circunstancia. Puedes solicitar la supresión de tu cuenta en cualquier momento.</p>"
+            },
+            disclaimer: {
+                title: "⚠️ Aviso Legal y Deslinde de TikTok & OBS",
+                html: "<div style='background:rgba(239,68,68,0.15); border:1px solid #ef4444; padding:12px; border-radius:8px; margin-bottom:1rem; color:#fca5a5;'><strong>StreamTroll es un software independiente desarrollado por ZENIC S.A.S.</strong></div><p>StreamTroll NO está patrocinado, respaldado ni afiliado a TikTok Inc., ByteDance Ltd., ni OBS Studio. Los nombres de regalos y marcas pertenecen exclusivamente a sus propietarios y se mencionan con propósitos de interoperabilidad técnica.</p>"
+            },
+            refunds: {
+                title: "💳 Política de Suscripciones y Reembolsos",
+                html: "<h3>1. Suscripciones</h3><p>Las suscripciones a planes avanzados se cobran según el periodo seleccionado y pueden cancelarse en cualquier momento.</p><h3>2. Garantía de 14 Días</h3><p>Si la plataforma presenta un fallo técnico imputable que impida su funcionamiento y nuestro equipo de soporte no lo solucione, tienes derecho a solicitar el reembolso íntegro durante los primeros 14 días.</p>"
+            },
+            cookies: {
+                title: "🍪 Política de Cookies y Almacenamiento Local",
+                html: "<h3>1. Almacenamiento Técnico</h3><p>Utilizamos cookies y Local Storage estrictamente técnicos para mantener tu sesión activa, recordar tus mapeos de regalos y acelerar las animaciones en OBS sin gastar ancho de banda.</p><p>Puedes limpiar estos datos en cualquier momento desde tu navegador.</p>"
+            }
+        };
+
+        function openLegalModal(docKey) {
+            const doc = legalDocs[docKey] || legalDocs.terms;
+            document.getElementById('modalLegalTitle').innerText = doc.title;
+            document.getElementById('modalLegalBody').innerHTML = doc.html;
+            const modal = document.getElementById('legalModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeLegalModal() {
+            document.getElementById('legalModal').style.display = 'none';
+        }
+    </script>
+    </div>
+</body>
+</html>

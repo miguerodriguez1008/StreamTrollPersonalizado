@@ -432,6 +432,32 @@ function Overlay() {
       } catch {}
     });
 
+    // 3.5. Real-time WebSocket bridge (ws://127.0.0.1:18923)
+    let ws = null;
+    let wsRetry = null;
+    let isUnmounted = false;
+    function connectWs() {
+      if (isUnmounted) return;
+      try {
+        ws = new WebSocket('ws://127.0.0.1:18923');
+        ws.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data);
+            handleIncomingPayload(data);
+          } catch {}
+        };
+        ws.onclose = () => {
+          if (!isUnmounted) wsRetry = setTimeout(connectWs, 3000);
+        };
+        ws.onerror = () => {
+          try { ws.close(); } catch {}
+        };
+      } catch {
+        if (!isUnmounted) wsRetry = setTimeout(connectWs, 3000);
+      }
+    }
+    connectWs();
+
     // 4. Initial load from StreamTroll physical disk config
     fetch('http://127.0.0.1:18923/api/config')
       .then((r) => r.json())
@@ -446,6 +472,11 @@ function Overlay() {
       .catch(() => {});
 
     return () => {
+      isUnmounted = true;
+      if (ws) {
+        try { ws.close(); } catch {}
+      }
+      if (wsRetry) clearTimeout(wsRetry);
       clearTimeout(timer);
       if (effectTimeoutRef.current) clearTimeout(effectTimeoutRef.current);
       channel.removeEventListener('message', onChannelMsg);

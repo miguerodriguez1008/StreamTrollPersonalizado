@@ -242,6 +242,32 @@ export default function GiftSliderOverlay() {
       } catch {}
     });
 
+    // 3.5. WebSocket connection to local StreamTroll app (ws://127.0.0.1:18923)
+    let ws = null;
+    let wsRetry = null;
+    let isUnmounted = false;
+    function connectWs() {
+      if (isUnmounted) return;
+      try {
+        ws = new WebSocket('ws://127.0.0.1:18923');
+        ws.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data);
+            handleIncomingPayload(data);
+          } catch {}
+        };
+        ws.onclose = () => {
+          if (!isUnmounted) wsRetry = setTimeout(connectWs, 3000);
+        };
+        ws.onerror = () => {
+          try { ws.close(); } catch {}
+        };
+      } catch {
+        if (!isUnmounted) wsRetry = setTimeout(connectWs, 3000);
+      }
+    }
+    connectWs();
+
     // 4. Initial load from StreamTroll physical disk config
     fetch('http://127.0.0.1:18923/api/config')
       .then((r) => r.json())
@@ -267,6 +293,11 @@ export default function GiftSliderOverlay() {
     window.addEventListener('storage', onStorage);
 
     return () => {
+      isUnmounted = true;
+      if (ws) {
+        try { ws.close(); } catch {}
+      }
+      if (wsRetry) clearTimeout(wsRetry);
       channel.removeEventListener('message', onBroadcastMsg);
       if (ipcRenderer) {
         try { ipcRenderer.removeListener('overlay:event', onIpcMsg); } catch {}

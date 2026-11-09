@@ -111,6 +111,36 @@ export default function TimerOverlay() {
       };
     } catch {}
 
+    // WebSocket Stream listener from StreamTroll Desktop
+    let ws = null;
+    let wsRetry = null;
+    let isUnmounted = false;
+    function connectWs() {
+      if (isUnmounted) return;
+      try {
+        ws = new WebSocket('ws://127.0.0.1:18923');
+        ws.onmessage = (e) => {
+          try {
+            const parsed = JSON.parse(e.data);
+            if (parsed.type === 'TIMER_SYNC' && parsed.timerConfig) {
+              handleTimerSync(parsed.timerConfig);
+            } else if (parsed.timerConfig) {
+              handleTimerSync(parsed.timerConfig);
+            }
+          } catch {}
+        };
+        ws.onclose = () => {
+          if (!isUnmounted) wsRetry = setTimeout(connectWs, 3000);
+        };
+        ws.onerror = () => {
+          try { ws.close(); } catch {}
+        };
+      } catch {
+        if (!isUnmounted) wsRetry = setTimeout(connectWs, 3000);
+      }
+    }
+    connectWs();
+
     // LocalStorage storage event (browser tab sync)
     const onStorage = (e) => {
       if (e.key === 'stream_troll_timer_config' && e.newValue) {
@@ -129,6 +159,11 @@ export default function TimerOverlay() {
     document.body.style.padding = '0';
 
     return () => {
+      isUnmounted = true;
+      if (ws) {
+        try { ws.close(); } catch {}
+      }
+      if (wsRetry) clearTimeout(wsRetry);
       if (channel) channel.close();
       if (es) es.close();
       window.removeEventListener('storage', onStorage);

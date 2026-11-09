@@ -9,7 +9,7 @@ const TRANSLATIONS = {
     // Sidebar
     dashboard: 'Panel Principal',
     mappings: 'Mapeos de Regalos',
-    slider: 'Slider de Regalos (OBS)',
+    slider: 'Slider de Regalos (TikTok & OBS)',
     tips: 'Propinas y Donaciones',
     contests: 'Sorteos y Concursos',
     chatbot: 'Chatbot',
@@ -68,7 +68,7 @@ const TRANSLATIONS = {
     combosLabel: 'Combos:',
     comboStreakEnd: 'Esperar final de racha (Recomendado)',
     comboEveryGift: 'Ejecutar cada regalo individual',
-    sliderPanelTitle: 'Slider de Regalos Mapeados (OBS Overlay)',
+    sliderPanelTitle: 'Slider de Regalos Mapeados (TikTok Studio & OBS)',
     sliderPanelSub: 'Espacio dedicado con carrusel animado para que tus espectadores vean qué regalo activa cada efecto',
     activeInOBS: 'ACTIVO EN OBS',
     hiddenInOBS: 'OCULTO',
@@ -121,7 +121,7 @@ const TRANSLATIONS = {
     // Sidebar
     dashboard: 'Dashboard',
     mappings: 'Gift Mappings',
-    slider: 'OBS Gift Slider',
+    slider: 'Gift Slider (TikTok & OBS)',
     tips: 'Tips & Donations',
     contests: 'Raffles & Contests',
     chatbot: 'Chatbot',
@@ -180,7 +180,7 @@ const TRANSLATIONS = {
     combosLabel: 'Combos:',
     comboStreakEnd: 'Wait for streak end (Recommended)',
     comboEveryGift: 'Trigger on every single gift',
-    sliderPanelTitle: 'Mapped Gifts Slider (OBS Overlay)',
+    sliderPanelTitle: 'Mapped Gifts Slider (TikTok Studio & OBS)',
     sliderPanelSub: 'Dedicated space with animated carousel so your viewers see which gift triggers each effect',
     activeInOBS: 'ACTIVE IN OBS',
     hiddenInOBS: 'HIDDEN',
@@ -233,7 +233,7 @@ const TRANSLATIONS = {
     // Sidebar
     dashboard: 'Painel Principal',
     mappings: 'Mapeamento de Presentes',
-    slider: 'Carrossel de Presentes (OBS)',
+    slider: 'Carrossel de Presentes (TikTok & OBS)',
     tips: 'Gorjetas e Doações',
     contests: 'Sorteios e Concursos',
     chatbot: 'Chatbot',
@@ -292,7 +292,7 @@ const TRANSLATIONS = {
     combosLabel: 'Combos:',
     comboStreakEnd: 'Aguardar fim do combo (Recomendado)',
     comboEveryGift: 'Disparar a cada presente individual',
-    sliderPanelTitle: 'Carrossel de Presentes Mapeados (OBS Overlay)',
+    sliderPanelTitle: 'Carrossel de Presentes Mapeados (TikTok Studio & OBS)',
     sliderPanelSub: 'Espaço com carrossel animado para que seu público veja o efeito de cada presente',
     activeInOBS: 'ATIVO NO OBS',
     hiddenInOBS: 'OCULTO',
@@ -3321,70 +3321,145 @@ function Dashboard() {
                     </div>
                   </div>
 
-                  {/* Standalone Browser Source Link Banner */}
-                  <div style={{
-                    background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.16), rgba(236, 72, 153, 0.16))',
-                    border: '1.5px solid rgba(139, 92, 246, 0.5)',
-                    borderRadius: '12px',
-                    padding: '0.85rem 1.1rem',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                    gap: '12px',
-                    margin: '1rem 0'
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <span style={{ fontSize: '1.4rem' }}>🔗</span>
-                      <div>
-                        <div style={{ fontSize: '0.86rem', fontWeight: 800, color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <span>Fuente Independiente para OBS:</span>
-                          <span className="badge badge-success" style={{ fontSize: '0.68rem', padding: '1px 6px' }}>LISTO</span>
+                  {/* Standalone Browser Source Link Banners (TikTok Studio & OBS) */}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '14px', margin: '1rem 0' }}>
+                    {/* Tarjeta 1: TikTok Live Studio (HTTPS Oficial) */}
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.18), rgba(236, 72, 153, 0.16))',
+                      border: '1.5px solid rgba(6, 182, 212, 0.6)',
+                      borderRadius: '14px',
+                      padding: '1rem 1.15rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      gap: '10px'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          <span style={{ fontSize: '1.6rem' }}>🎵</span>
+                          <div>
+                            <div style={{ fontSize: '0.92rem', fontWeight: 900, color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <span>TikTok Live Studio</span>
+                              <span style={{ background: '#06b6d4', color: '#000', fontSize: '0.66rem', fontWeight: 900, padding: '2px 8px', borderRadius: '12px' }}>
+                                HTTPS OFICIAL
+                              </span>
+                            </div>
+                            <div style={{ fontSize: '0.74rem', color: '#cbd5e1', marginTop: '2px' }}>
+                              Válido para <strong>+ Añadir fuente ➔ Enlace</strong> (1920x110)
+                            </div>
+                          </div>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px', flexWrap: 'wrap' }}>
-                          <code style={{ fontSize: '0.78rem', color: '#38bdf8', background: 'rgba(0,0,0,0.4)', padding: '2px 8px', borderRadius: '4px' }}>
-                            {isElectron ? 'http://127.0.0.1:18923/#/slider' : `${window.location.origin}${window.location.pathname}#/slider`}
-                          </code>
-                          <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>(Resolución recomendada: 1920x110)</span>
-                        </div>
+                      </div>
+
+                      <div style={{ background: 'rgba(0,0,0,0.5)', padding: '6px 10px', borderRadius: '8px', border: '1px solid rgba(6, 182, 212, 0.3)' }}>
+                        <code style={{ fontSize: '0.8rem', color: '#38bdf8', fontWeight: 800, wordBreak: 'break-all' }}>
+                          https://stream-troll.vercel.app/slider
+                        </code>
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                        <button
+                          className="btn"
+                          style={{
+                            flex: 1,
+                            padding: '0.55rem 0.85rem',
+                            fontSize: '0.82rem',
+                            fontWeight: 900,
+                            background: 'linear-gradient(135deg, #06b6d4, #ec4899)',
+                            color: '#fff',
+                            border: 'none',
+                            boxShadow: '0 4px 12px rgba(6, 182, 212, 0.3)'
+                          }}
+                          onClick={() => {
+                            navigator.clipboard.writeText('https://stream-troll.vercel.app/slider');
+                            showToast('🎉 ¡Enlace del Slider para TikTok Live Studio copiado!');
+                          }}
+                        >
+                          🎵 Copiar Enlace TikTok Studio
+                        </button>
+                        <button
+                          className="btn btn-secondary"
+                          style={{ padding: '0.55rem 0.75rem', fontSize: '0.78rem' }}
+                          onClick={() => window.open('https://stream-troll.vercel.app/slider', '_blank')}
+                          title="Abrir en navegador para previsualizar"
+                        >
+                          🌐 Abrir
+                        </button>
                       </div>
                     </div>
 
-                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                      <button
-                        className="btn btn-secondary"
-                        style={{ padding: '0.45rem 0.85rem', fontSize: '0.8rem', fontWeight: 'bold' }}
-                        onClick={() => {
-                          const url = isElectron ? 'http://127.0.0.1:18923/#/slider' : `${window.location.origin}${window.location.pathname}#/slider`;
-                          navigator.clipboard.writeText(url);
-                          showToast('📋 ¡Link del Slider copiado al portapapeles!');
-                        }}
-                      >
-                        📋 Copiar Link Slider
-                      </button>
-                      <button
-                        className="btn btn-secondary"
-                        style={{ padding: '0.45rem 0.85rem', fontSize: '0.8rem' }}
-                        onClick={() => openSliderPopout(false)}
-                      >
-                        🪟 Pop-out
-                      </button>
-                      <button
-                        className="btn btn-secondary"
-                        style={{ padding: '0.45rem 0.85rem', fontSize: '0.8rem' }}
-                        onClick={downloadSliderDragFile}
-                      >
-                        📥 Archivo .html
-                      </button>
-                      {obsConnected && (
+                    {/* Tarjeta 2: OBS Studio (Navegador Local) */}
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(59, 130, 246, 0.12))',
+                      border: '1.5px solid rgba(139, 92, 246, 0.5)',
+                      borderRadius: '14px',
+                      padding: '1rem 1.15rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      gap: '10px'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          <span style={{ fontSize: '1.6rem' }}>🎬</span>
+                          <div>
+                            <div style={{ fontSize: '0.92rem', fontWeight: 900, color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <span>OBS Studio (Navegador Local)</span>
+                              <span className="badge badge-success" style={{ fontSize: '0.66rem', padding: '2px 8px' }}>
+                                LOCALHOST
+                              </span>
+                            </div>
+                            <div style={{ fontSize: '0.74rem', color: '#94a3b8', marginTop: '2px' }}>
+                              Fuente Navegador en OBS (1920x110)
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div style={{ background: 'rgba(0,0,0,0.5)', padding: '6px 10px', borderRadius: '8px', border: '1px solid rgba(139, 92, 246, 0.3)' }}>
+                        <code style={{ fontSize: '0.8rem', color: '#a78bfa', fontWeight: 800, wordBreak: 'break-all' }}>
+                          {isElectron ? 'http://127.0.0.1:18923/#/slider' : `${window.location.origin}${window.location.pathname}#/slider`}
+                        </code>
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                         <button
-                          className="btn btn-success"
-                          style={{ padding: '0.45rem 0.95rem', fontSize: '0.8rem', fontWeight: 'bold' }}
-                          onClick={injectSliderIntoObs}
+                          className="btn btn-secondary"
+                          style={{ flex: 1, padding: '0.55rem 0.85rem', fontSize: '0.82rem', fontWeight: 800 }}
+                          onClick={() => {
+                            const url = isElectron ? 'http://127.0.0.1:18923/#/slider' : `${window.location.origin}${window.location.pathname}#/slider`;
+                            navigator.clipboard.writeText(url);
+                            showToast('📋 ¡Link del Slider para OBS copiado!');
+                          }}
                         >
-                          ⚡ Inyectar en OBS
+                          📋 Copiar Enlace OBS
                         </button>
-                      )}
+                        <button
+                          className="btn btn-secondary"
+                          style={{ padding: '0.55rem 0.75rem', fontSize: '0.78rem' }}
+                          onClick={() => openSliderPopout(false)}
+                          title="Abrir como ventana flotante"
+                        >
+                          🪟 Pop-out
+                        </button>
+                        <button
+                          className="btn btn-secondary"
+                          style={{ padding: '0.55rem 0.75rem', fontSize: '0.78rem' }}
+                          onClick={downloadSliderDragFile}
+                          title="Descargar archivo HTML"
+                        >
+                          📥 .html
+                        </button>
+                        {obsConnected && (
+                          <button
+                            className="btn btn-success"
+                            style={{ padding: '0.55rem 0.85rem', fontSize: '0.82rem', fontWeight: 800 }}
+                            onClick={injectSliderIntoObs}
+                          >
+                            ⚡ En OBS
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
 

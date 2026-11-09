@@ -284,6 +284,7 @@ function savePersistentConfig(data) {
 // Start local HTTP server for OBS Studio Browser Source & Real-Time Event Bridge
 const OBS_PORT = 18923;
 let obsServer = null;
+let wsServer = null;
 const sseClients = new Set();
 const initialPersistentConfig = loadPersistentConfig() || {};
 let lastEngineConfig = {
@@ -366,6 +367,15 @@ function broadcastToOverlay(payload) {
     }
   }
 
+  if (wsServer && wsServer.clients) {
+    const wsMsg = JSON.stringify(payload);
+    for (const client of wsServer.clients) {
+      if (client.readyState === 1) { // 1 = OPEN
+        try { client.send(wsMsg); } catch {}
+      }
+    }
+  }
+
   if (desktopOverlayEnabled && desktopOverlayWindow && !desktopOverlayWindow.isDestroyed()) {
     try {
       desktopOverlayWindow.webContents.send('overlay:event', {
@@ -390,7 +400,8 @@ function startObsServer() {
   obsServer = http.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Request-Private-Network');
+    res.setHeader('Access-Control-Allow-Private-Network', 'true');
 
     if (req.method === 'OPTIONS') {
       res.writeHead(204);
@@ -544,6 +555,19 @@ function startObsServer() {
     console.log(`OBS Server ready on http://127.0.0.1:${OBS_PORT}/#/overlay`);
     console.log(`OBS Slider ready on http://127.0.0.1:${OBS_PORT}/#/slider`);
     console.log(`OBS Timer ready on http://127.0.0.1:${OBS_PORT}/#/timer`);
+
+    try {
+      const WebSocket = require('ws');
+      wsServer = new WebSocket.Server({ server: obsServer });
+      wsServer.on('connection', (socket) => {
+        try {
+          socket.send(JSON.stringify(lastEngineConfig));
+        } catch {}
+      });
+      console.log(`StreamTroll WebSocket bridge listening on ws://127.0.0.1:${OBS_PORT}`);
+    } catch (err) {
+      console.warn('WebSocket server initialization note:', err.message);
+    }
   });
 }
 

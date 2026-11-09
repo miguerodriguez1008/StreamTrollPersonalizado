@@ -233,61 +233,84 @@ export default function LandingPage() {
               <div className="step-content">
                 <div className="step-icon-header">
                   <span className="step-icon">🎥</span>
-                  <h3>Integra la Fuente en OBS Studio</h3>
+                  <h3>Integra la Fuente en OBS Studio o TikTok Live Studio</h3>
                 </div>
                 <p>
-                  Abre OBS Studio, añade una nueva fuente de tipo <strong>Navegador (Browser Source)</strong> y pega la URL de tus efectos:
+                  Tanto en <strong>OBS Studio</strong> como en el software oficial <strong>TikTok Live Studio</strong>, añade una fuente de tipo <strong>Navegador / Enlace (Browser Source)</strong> con resolución <strong>1920x1080</strong> y pega la URL correspondiente:
                 </p>
 
-                {/* OBS URLs Copy Boxes */}
+                {/* Platform Selection Badges */}
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '1rem', flexWrap: 'wrap' }}>
+                  <span style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '4px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 700, border: '1px solid rgba(56, 189, 248, 0.3)' }}>
+                    ✓ Compatible con OBS Studio v28+
+                  </span>
+                  <span style={{ background: 'rgba(236, 72, 153, 0.15)', color: '#ec4899', padding: '4px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 700, border: '1px solid rgba(236, 72, 153, 0.3)' }}>
+                    ✓ Compatible con TikTok Live Studio Oficial
+                  </span>
+                  <span style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#10b981', padding: '4px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 700, border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+                    ✓ Streamlabs & Prism Live
+                  </span>
+                </div>
+
+                {/* URLs Copy Boxes */}
                 <div className="obs-urls-container">
                   <div className="obs-url-row">
                     <div className="obs-url-info">
-                      <span className="obs-url-tag">Efectos & Shaders:</span>
+                      <span className="obs-url-tag" style={{ color: '#38bdf8' }}>Efectos, Shaders y Trolls:</span>
                       <code className="obs-url-code">http://127.0.0.1:18923/#/overlay</code>
                     </div>
                     <button 
                       className="btn-copy-code"
                       onClick={() => handleCopy('http://127.0.0.1:18923/#/overlay', setCopiedObs)}
                     >
-                      {copiedObs ? '✅ Copiado' : '📋 Copiar'}
+                      {copiedObs ? '✅ Copiado' : '📋 Copiar Enlace'}
                     </button>
                   </div>
 
                   <div className="obs-url-row">
                     <div className="obs-url-info">
-                      <span className="obs-url-tag">Carrusel Slider:</span>
+                      <span className="obs-url-tag" style={{ color: '#ec4899' }}>Carrusel Slider de Regalos:</span>
                       <code className="obs-url-code">http://127.0.0.1:18923/#/slider</code>
                     </div>
                     <button 
                       className="btn-copy-code"
                       onClick={() => handleCopy('http://127.0.0.1:18923/#/slider', setCopiedSlider)}
                     >
-                      {copiedSlider ? '✅ Copiado' : '📋 Copiar'}
+                      {copiedSlider ? '✅ Copiado' : '📋 Copiar Enlace'}
                     </button>
                   </div>
 
                   <div className="obs-url-row">
                     <div className="obs-url-info">
-                      <span className="obs-url-tag">Temporizador Subathon:</span>
+                      <span className="obs-url-tag" style={{ color: '#34d399' }}>Temporizador Subathon:</span>
                       <code className="obs-url-code">http://127.0.0.1:18923/#/timer</code>
                     </div>
                     <button 
                       className="btn-copy-code"
                       onClick={() => handleCopy('http://127.0.0.1:18923/#/timer', setCopiedTimer)}
                     >
-                      {copiedTimer ? '✅ Copiado' : '📋 Copiar'}
+                      {copiedTimer ? '✅ Copiado' : '📋 Copiar Enlace'}
                     </button>
                   </div>
                 </div>
 
-                <div className="obs-recommended-settings">
-                  <strong>⚙️ Ajustes recomendados en OBS:</strong>
-                  <ul>
-                    <li>Ancho: <code>1920</code> | Alto: <code>1080</code></li>
-                    <li>Activar: <em>"Controlar audio vía OBS"</em></li>
-                    <li>Activar: <em>"Actualizar el navegador cuando la escena se active"</em></li>
-                  </ul>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
+                  <div className="obs-recommended-settings">
+                    <strong style={{ color: '#38bdf8' }}>⚙️ Configuración en OBS Studio:</strong>
+                    <ul>
+                      <li>Añadir fuente ➔ <strong>Navegador</strong></li>
+                      <li>Ancho: <code>1920</code> | Alto: <code>1080</code></li>
+                      <li>Activar: <em>"Controlar audio vía OBS"</em></li>
+                    </ul>
+                  </div>
+                  <div className="obs-recommended-settings">
+                    <strong style={{ color: '#ec4899' }}>🎵 Configuración en TikTok Live Studio:</strong>
+                    <ul>
+                      <li>En tu escena ➔ <strong>+ Añadir Fuente</strong></li>
+                      <li>Seleccionar ➔ <strong>Enlace (Custom Link / Navegador)</strong></li>
+                      <li>Pega el enlace con resolución <code>1920 x 1080</code></li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
@@ -345,19 +368,33 @@ export default function LandingPage() {
           <div className="landing-features">
             <div className="landing-feature-card">
               <div className="card-top-icon">💥</div>
-              <h3>9 Shaders Extremos</h3>
+              <h3>9 Shaders Extremos por GPU</h3>
               <p>
-                Desde terremotos con distorsión de cámara hasta pantalla flashbang blanca, modo matrix y pixelado retro. 
-                Programados a bajo nivel en WebGL para no cargar tu CPU.
+                <strong>Flashbang</strong> que ciega la pantalla en blanco, <strong>Terremoto 9.0</strong> con sacudida violenta, <strong>Drunk Mode</strong>, <strong>Cyber Glitch</strong>, <strong>Game Boy 8-bit</strong>, <strong>Miopía Blur</strong>, <strong>Invert Colores</strong> y <strong>Vintage Sepia</strong>. Todo renderizado a bajo nivel en WebGL con 0% carga de CPU.
+              </p>
+            </div>
+
+            <div className="landing-feature-card">
+              <div className="card-top-icon">🎭</div>
+              <h3>Trolls de Pantalla y Acciones</h3>
+              <p>
+                <strong>¡Stream Caído Falso!</strong> con estática de televisión y pitido de desconexión, <strong>Cerrar Juego (Alt+F4)</strong>, <strong>Mandar al Escritorio (Win+D)</strong>, <strong>Alt+Tab Troll</strong> y <strong>Apagar Stream</strong>. Tus donadores tendrán el control total de tus partidas.
+              </p>
+            </div>
+
+            <div className="landing-feature-card">
+              <div className="card-top-icon">😱</div>
+              <h3>Soundboard y Sustos en Vivo</h3>
+              <p>
+                Efectos de audio sintetizados al instante para asustar al streamer: <strong>Screamer Agudo</strong>, <strong>Sirena del FBI / Policía</strong>, <strong>Golpe a la Puerta (Knock)</strong> y disparos láser que suenan directamente por OBS y TikTok Live Studio.
               </p>
             </div>
 
             <div className="landing-feature-card">
               <div className="card-top-icon">🎠</div>
-              <h3>Slider Carousel de Regalos</h3>
+              <h3>Slider Carousel de Donadores</h3>
               <p>
-                Un carrusel moderno horizontal para OBS que muestra en vivo las fotos de perfil de los donadores, 
-                los regalos enviados y la suma acumulada de monedas.
+                Barra continua animada tipo ticker para colocar arriba, abajo o sobre tu webcam. Muestra en vivo los avatares de tus donadores, el regalo enviado y las monedas acumuladas en tiempo real.
               </p>
             </div>
 
@@ -365,8 +402,7 @@ export default function LandingPage() {
               <div className="card-top-icon">⏳</div>
               <h3>Subathon Timer Extensible</h3>
               <p>
-                Configura un temporizador que suma segundos o minutos automáticamente por cada moneda donada. 
-                Ideal para retos de horas y maratones de directos.
+                Cronómetro digital cyber neón que suma automáticamente segundos o minutos por cada moneda o regalo recibido. Ideal para directos maratónicos y metas de comunidad.
               </p>
             </div>
 
@@ -374,26 +410,31 @@ export default function LandingPage() {
               <div className="card-top-icon">🖼️</div>
               <h3>Gift Graphics 3D</h3>
               <p>
-                Lluvia de rosas cayendo en cascada, estallidos gigantes, despegues espaciales y leones épicos 
-                que aparecen flotando sobre tu juego con un solo clic.
+                Animaciones flotantes en pantalla completa: <strong>Lluvia de rosas 3D</strong> cayendo en cascada, <strong>Rugido del León épico</strong>, despegues de cohetes espaciales y estallidos de fuegos artificiales.
               </p>
             </div>
 
             <div className="landing-feature-card">
               <div className="card-top-icon">🗣️</div>
-              <h3>Text-to-Speech & Soundboard</h3>
+              <h3>Text-to-Speech (TTS) & Alertas</h3>
               <p>
-                Voz robótica nativa que lee los comentarios de tus donadores en tiempo real, junto con una botonera 
-                de sonidos meme listos para disparar.
+                Voz robótica nativa que lee en voz alta los nombres y mensajes de los donadores. Personaliza plantillas de texto como <em>"¡Gracias {user} por el {gift}!"</em> sin retardos.
+              </p>
+            </div>
+
+            <div className="landing-feature-card">
+              <div className="card-top-icon">🎵</div>
+              <h3>TikTok Live Studio & OBS Studio</h3>
+              <p>
+                Integración dual lista para usar. Funciona con la aplicación oficial <strong>TikTok Live Studio</strong> para PC y con <strong>OBS Studio / Streamlabs</strong> mediante fuentes de navegador de ultra baja latencia.
               </p>
             </div>
 
             <div className="landing-feature-card">
               <div className="card-top-icon">⚡</div>
-              <h3>Modo Ultra FPS Gaming</h3>
+              <h3>Modo Ultra FPS Gaming (Zero Lag)</h3>
               <p>
-                Garantiza que puedas jugar a 144Hz o 240Hz en títulos competitivos como Valorant, CS2 o Fortnite 
-                sin micro-tirones ni retrasos en pantalla.
+                Garantiza que puedas competir a 144Hz o 240Hz en títulos como Valorant, CS2 o Fortnite sin micro-tirones. La superposición permanece en reposo total cuando no hay efectos activos.
               </p>
             </div>
           </div>

@@ -344,15 +344,26 @@ const TRANSLATIONS = {
 };
 
 const AVAILABLE_EFFECTS = [
-  { id: 'drunk', name: '🥴 Drunk (Mareo)', free: true },
-  { id: 'mirror', name: '🪞 Mirror / Flip', free: true },
-  { id: 'blur', name: '👓 Blur (Miopía)', free: true },
-  { id: 'glitch', name: '👾 Glitch Retro', free: false },
-  { id: 'flashbang', name: '💥 Flashbang (Cegador)', free: false },
-  { id: 'gameboy', name: '🟩 Game Boy', free: false },
-  { id: 'invert', name: '☯️ Invert (Colores)', free: false },
-  { id: 'earthquake', name: '🌋 Earthquake (Temblor)', free: false },
-  { id: 'vintage', name: '🎞️ Sepia Vintage', free: false },
+  // 1. Shaders Visuales por GPU
+  { id: 'drunk', name: '🥴 Drunk (Mareo)', free: true, category: 'shader' },
+  { id: 'mirror', name: '🪞 Mirror / Flip (Invertir Pantalla)', free: true, category: 'shader' },
+  { id: 'blur', name: '👓 Blur (Miopía Extrema)', free: true, category: 'shader' },
+  { id: 'glitch', name: '👾 Cyber Glitch Retro', free: false, category: 'shader' },
+  { id: 'flashbang', name: '💥 Flashbang (Cegador Blanco)', free: false, category: 'shader' },
+  { id: 'gameboy', name: '🟩 Game Boy Matrix 8-Bit', free: false, category: 'shader' },
+  { id: 'invert', name: '☯️ Invert (Colores Psicodélicos)', free: false, category: 'shader' },
+  { id: 'earthquake', name: '🌋 Earthquake (Terremoto Nivel 9)', free: false, category: 'shader' },
+  { id: 'vintage', name: '🎞️ Sepia Vintage (Cine Antiguo)', free: false, category: 'shader' },
+  // 2. Trolls de Sistema y Pantalla
+  { id: 'fake_stream_ended', name: '🎭 Stream Caído (Troleo Falso)', free: false, category: 'troll' },
+  { id: 'close_app', name: '❌ Cerrar Juego (Alt + F4)', free: false, category: 'troll' },
+  { id: 'minimize_game', name: '🖥️ Mandar al Escritorio (Win + D)', free: false, category: 'troll' },
+  { id: 'alt_tab', name: '🔄 Alt + Tab Troll en Vivo', free: false, category: 'troll' },
+  { id: 'stop_stream', name: '🛑 Apagar Stream y Cerrar OBS', free: false, category: 'troll' },
+  // 3. Sonidos y Sustos Troll
+  { id: 'screamer', name: '😱 Screamer Susto Agudo', free: false, category: 'sound' },
+  { id: 'fbi', name: '🚨 Sirena FBI / Policía', free: false, category: 'sound' },
+  { id: 'knock', name: '🚪 Golpe en la Puerta (Knock)', free: false, category: 'sound' }
 ];
 
 // Normalization Helper for gift names (removes accents, punctuation, spaces, lowercase)
@@ -5192,6 +5203,90 @@ function Dashboard() {
                     </button>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* SECCIÓN ESPECIAL: TIKTOK LIVE STUDIO */}
+            <div style={{ background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(236, 72, 153, 0.08))', border: '1.5px solid rgba(6, 182, 212, 0.4)', borderRadius: '16px', padding: '1.5rem', marginBottom: '2.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.25rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ fontSize: '2rem' }}>🎵</span>
+                  <div>
+                    <h3 style={{ margin: 0, fontSize: '1.3rem', color: '#fff' }}>Fuentes para TikTok Live Studio (Oficial)</h3>
+                    <p style={{ margin: '2px 0 0 0', fontSize: '0.84rem', color: '#cbd5e1' }}>
+                      Si transmites usando el programa oficial de TikTok para PC, agrega estas fuentes como <strong>"Enlace" (Custom Link / Navegador)</strong> en tus escenas.
+                    </p>
+                  </div>
+                </div>
+                <span style={{ background: '#06b6d4', color: '#000', fontWeight: 900, fontSize: '0.75rem', padding: '4px 10px', borderRadius: '20px' }}>
+                  TIKTOK LIVE STUDIO LISTO
+                </span>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem', marginBottom: '1.25rem' }}>
+                <div style={{ background: 'rgba(0,0,0,0.4)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
+                  <div style={{ fontWeight: 800, color: '#38bdf8', fontSize: '0.9rem', marginBottom: '4px' }}>
+                    1. Efectos, Shaders y Alertas
+                  </div>
+                  <code style={{ display: 'block', fontSize: '0.78rem', color: '#cbd5e1', background: 'rgba(255,255,255,0.05)', padding: '6px', borderRadius: '6px', marginBottom: '8px', wordBreak: 'break-all' }}>
+                    {isElectron ? 'http://127.0.0.1:18923/#/overlay' : `${window.location.origin}${window.location.pathname}#/overlay`}
+                  </code>
+                  <button
+                    className="btn btn-secondary"
+                    style={{ width: '100%', padding: '0.5rem', fontSize: '0.8rem', fontWeight: 700 }}
+                    onClick={() => {
+                      const url = isElectron ? 'http://127.0.0.1:18923/#/overlay' : `${window.location.origin}${window.location.pathname}#/overlay`;
+                      navigator.clipboard.writeText(url);
+                      showToast('📋 ¡Link para TikTok Live Studio copiado!');
+                    }}
+                  >
+                    📋 Copiar Link de Efectos
+                  </button>
+                </div>
+
+                <div style={{ background: 'rgba(0,0,0,0.4)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
+                  <div style={{ fontWeight: 800, color: '#ec4899', fontSize: '0.9rem', marginBottom: '4px' }}>
+                    2. Carrusel Slider de Donadores
+                  </div>
+                  <code style={{ display: 'block', fontSize: '0.78rem', color: '#cbd5e1', background: 'rgba(255,255,255,0.05)', padding: '6px', borderRadius: '6px', marginBottom: '8px', wordBreak: 'break-all' }}>
+                    {isElectron ? 'http://127.0.0.1:18923/#/slider' : `${window.location.origin}${window.location.pathname}#/slider`}
+                  </code>
+                  <button
+                    className="btn btn-secondary"
+                    style={{ width: '100%', padding: '0.5rem', fontSize: '0.8rem', fontWeight: 700 }}
+                    onClick={() => {
+                      const url = isElectron ? 'http://127.0.0.1:18923/#/slider' : `${window.location.origin}${window.location.pathname}#/slider`;
+                      navigator.clipboard.writeText(url);
+                      showToast('📋 ¡Link del Slider copiado!');
+                    }}
+                  >
+                    📋 Copiar Link Slider
+                  </button>
+                </div>
+
+                <div style={{ background: 'rgba(0,0,0,0.4)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
+                  <div style={{ fontWeight: 800, color: '#34d399', fontSize: '0.9rem', marginBottom: '4px' }}>
+                    3. Temporizador Subathon
+                  </div>
+                  <code style={{ display: 'block', fontSize: '0.78rem', color: '#cbd5e1', background: 'rgba(255,255,255,0.05)', padding: '6px', borderRadius: '6px', marginBottom: '8px', wordBreak: 'break-all' }}>
+                    {isElectron ? 'http://127.0.0.1:18923/#/timer' : `${window.location.origin}${window.location.pathname}#/timer`}
+                  </code>
+                  <button
+                    className="btn btn-secondary"
+                    style={{ width: '100%', padding: '0.5rem', fontSize: '0.8rem', fontWeight: 700 }}
+                    onClick={() => {
+                      const url = isElectron ? 'http://127.0.0.1:18923/#/timer' : `${window.location.origin}${window.location.pathname}#/timer`;
+                      navigator.clipboard.writeText(url);
+                      showToast('📋 ¡Link del Timer copiado!');
+                    }}
+                  >
+                    📋 Copiar Link Temporizador
+                  </button>
+                </div>
+              </div>
+
+              <div style={{ fontSize: '0.82rem', color: '#94a3b8', background: 'rgba(0,0,0,0.25)', padding: '10px 14px', borderRadius: '8px' }}>
+                💡 <strong>Instrucciones en TikTok Live Studio:</strong> En tu escena activa, haz clic en <strong>+ Añadir Fuente</strong> ➔ selecciona <strong>"Enlace" (Link / Navegador)</strong> ➔ Pega la URL con resolución <code>1920x1080</code> (para efectos) o el tamaño deseado. ¡Los efectos se activarán automáticamente durante tu directo!
               </div>
             </div>
 

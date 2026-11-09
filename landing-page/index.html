@@ -283,11 +283,24 @@
 
                 <div style="display: flex; gap: 1.5rem; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(236,72,153,0.5); border-radius: 20px; padding: 2rem; backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(236,72,153,0.15);">
                     <div style="width: 50px; height: 50px; border-radius: 14px; background: rgba(236,72,153,0.4); border: 1px solid #ec4899; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.25rem; color: #fff; flex-shrink: 0;">03</div>
-                    <div>
-                        <h3 style="color: #fff; margin-bottom: 0.5rem; font-size: 1.3rem;">🎥 3. Agrega la Fuente en OBS Studio</h3>
-                        <p style="color: #cbd5e1; margin-bottom: 0.75rem;">Añade una fuente de tipo <strong>Navegador (Browser Source)</strong> con resolución <strong>1920x1080</strong> y la URL:</p>
-                        <div style="background: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px; font-family: monospace; color: #38bdf8; font-size: 0.95rem; border: 1px solid rgba(56,189,248,0.3);">
-                            http://127.0.0.1:18923/#/overlay
+                    <div style="flex: 1;">
+                        <h3 style="color: #fff; margin-bottom: 0.5rem; font-size: 1.3rem;">🎥 3. Agrega la Fuente en OBS Studio o TikTok Live Studio</h3>
+                        <p style="color: #cbd5e1; margin-bottom: 0.75rem;">Añade una fuente de tipo <strong>Navegador / Enlace (Browser Source)</strong> con resolución <strong>1920x1080</strong> y pega la URL de tus efectos:</p>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 1rem;">
+                            <div style="background: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px; font-family: monospace; color: #38bdf8; font-size: 0.95rem; border: 1px solid rgba(56,189,248,0.3); display: flex; justify-content: space-between; align-items: center;">
+                                <span><strong>Efectos & Shaders:</strong> http://127.0.0.1:18923/#/overlay</span>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px; font-family: monospace; color: #ec4899; font-size: 0.95rem; border: 1px solid rgba(236,72,153,0.3); display: flex; justify-content: space-between; align-items: center;">
+                                <span><strong>Carrusel Slider:</strong> http://127.0.0.1:18923/#/slider</span>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px; font-family: monospace; color: #34d399; font-size: 0.95rem; border: 1px solid rgba(16,185,129,0.3); display: flex; justify-content: space-between; align-items: center;">
+                                <span><strong>Temporizador Subathon:</strong> http://127.0.0.1:18923/#/timer</span>
+                            </div>
+                        </div>
+
+                        <div style="background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; color: #94a3b8;">
+                            🎵 <strong>Para TikTok Live Studio:</strong> En tu escena activa, haz clic en <strong>+ Añadir Fuente</strong> ➔ selecciona <strong>"Enlace" (Custom Link)</strong> ➔ Pega la URL de Efectos con resolución <code>1920x1080</code>.
                         </div>
                     </div>
                 </div>
@@ -304,16 +317,28 @@
 
         <section class="features">
             <div class="feature-card">
-                <h3>✨ 9 Shaders Extremos</h3>
-                <p>Desde terremotos virtuales hasta un flashbang que dejará la pantalla blanca. Todo programado a bajo nivel gráfico para no quitarte FPS de tus juegos.</p>
+                <h3>💥 9 Shaders Extremos</h3>
+                <p>Flashbang cegador, Terremoto 9.0, Drunk Mode, Cyber Glitch, Game Boy 8-bit, Invert Colores, Sepia Vintage y Blur. Todo renderizado por GPU sin consumir CPU.</p>
             </div>
             <div class="feature-card">
-                <h3>🎁 Mapeo de Regalos Directo</h3>
-                <p>Sin programas intermediarios. Ingresa tu usuario de TikTok y la app escuchará automáticamente los regalos para disparar las animaciones en pantalla.</p>
+                <h3>🎭 Trolls de Pantalla y Acciones</h3>
+                <p>Stream Caído Falso con estática y pitido de TV, Mandar al Escritorio (Win+D), Cerrar Juego (Alt+F4), Alt+Tab y Apagar OBS activados por regalos de TikTok.</p>
             </div>
             <div class="feature-card">
-                <h3>🗣️ Alertas TTS</h3>
-                <p>Deja que una voz robótica interrumpa tus partidas leyendo en voz alta los mensajes de las alertas falsas o reales de tus donadores.</p>
+                <h3>😱 Soundboard y Sustos</h3>
+                <p>Sonidos meme y sustos como Screamer agudo, Sirena FBI / Policía y Golpe a la puerta (Knock) que sonarán al instante en tu directo.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎠 Slider y Subathon Timer</h3>
+                <p>Carrusel animado de donadores en tiempo real y temporizador de subatón que añade segundos automáticamente con cada moneda donada.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🖼️ Gift Graphics 3D</h3>
+                <p>Lluvia de rosas flotantes, rugido del león 3D, despegues de cohetes y estallidos espaciales para sorprender a tu audiencia.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎵 TikTok Live Studio & OBS</h3>
+                <p>Compatible al 100% con TikTok Live Studio para PC y OBS Studio mediante fuentes de navegador locales con cero latencia.</p>
             </div>
         </section>
 

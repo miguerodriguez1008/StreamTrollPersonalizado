@@ -27,7 +27,10 @@ const EFFECT_META = {
   minimize_game: { icon: '🖥️', label: '¡MANDAR AL ESCRITORIO (WIN+D)!', color: '#f59e0b' },
   alt_tab: { icon: '🔄', label: '¡ALT + TAB TROLL!', color: '#8b5cf6' },
   stop_stream: { icon: '🛑', label: '¡STREAM Y OBS CERRADOS!', color: '#ef4444' },
-  fake_stream_ended: { icon: '🎭', label: '¡STREAM CAÍDO (TROLL FALSO)!', color: '#dc2626' }
+  fake_stream_ended: { icon: '🎭', label: '¡STREAM CAÍDO (TROLL FALSO)!', color: '#dc2626' },
+  screamer: { icon: '😱', label: '¡SUSTO / SCREAMER AGUDO!', color: '#ef4444' },
+  fbi: { icon: '🚨', label: '¡SIRENA FBI / POLICÍA!', color: '#3b82f6' },
+  knock: { icon: '🚪', label: '¡GOLPE EN LA PUERTA (KNOCK)!', color: '#f59e0b' }
 };
 
 const playFakeStreamSound = () => {
@@ -123,6 +126,44 @@ const playGraphicSound = (soundType) => {
       gain.connect(ctx.destination);
       osc.start();
       osc.stop(ctx.currentTime + 0.35);
+    } else if (soundType === 'screamer') {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(1300, ctx.currentTime);
+      osc.frequency.setValueAtTime(350, ctx.currentTime + 0.2);
+      gain.gain.setValueAtTime(0.55, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.65);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.7);
+    } else if (soundType === 'fbi') {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(850, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.35);
+      gain.gain.setValueAtTime(0.4, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.85);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.9);
+    } else if (soundType === 'knock') {
+      [0, 0.12, 0.24].forEach((delay) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(180, ctx.currentTime + delay);
+        osc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + delay + 0.08);
+        gain.gain.setValueAtTime(0.5, ctx.currentTime + delay);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + delay + 0.08);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime + delay);
+        osc.stop(ctx.currentTime + delay + 0.09);
+      });
     }
   } catch {}
 };
@@ -288,6 +329,8 @@ function Overlay() {
 
         if (data.effect === 'fake_stream_ended') {
           playFakeStreamSound();
+        } else if (data.effect === 'screamer' || data.effect === 'fbi' || data.effect === 'knock') {
+          playGraphicSound(data.effect);
         }
 
         if (effectTimeoutRef.current) {

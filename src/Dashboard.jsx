@@ -630,6 +630,18 @@ export const DEFAULT_GIFT_GRAPHICS = [
   }
 ];
 
+// Lista de cuentas con acceso VIP / ULTIMATE ilimitado oficial
+export const PREMIUM_ACCOUNTS = [
+  'miguerodriguez1008@gmail.com',
+  'karenbmarin30@gmail.com'
+];
+
+export const isPremiumEmail = (email) => {
+  if (!email || typeof email !== 'string') return false;
+  const clean = email.toLowerCase().trim();
+  return PREMIUM_ACCOUNTS.includes(clean);
+};
+
 function Dashboard() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [lang, setLang] = useState(() => localStorage.getItem('troll_me_lang') || 'es');
@@ -642,12 +654,12 @@ function Dashboard() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed && parsed.email && parsed.isLoggedIn) {
-          const isMigue = parsed.email.toLowerCase().trim() === 'miguerodriguez1008@gmail.com';
+          const isVip = isPremiumEmail(parsed.email);
           return {
             ...parsed,
             isLoggedIn: true,
-            plan: isMigue ? 'ULTIMATE' : 'GRATUITO',
-            avatar: isMigue ? '👑' : '😎'
+            plan: isVip ? 'ULTIMATE' : 'GRATUITO',
+            avatar: isVip ? '👑' : '😎'
           };
         }
       }
@@ -1100,7 +1112,7 @@ function Dashboard() {
     showToast('🔄 Pantalla actualizada');
   }, [showToast]);
 
-  // Troll Me Auth Handlers (Only miguerodriguez1008@gmail.com has ULTIMATE plan)
+  // Troll Me Auth Handlers (Official VIP / ULTIMATE for registered streamers)
   const loginTrollMe = (e) => {
     if (e && e.preventDefault) e.preventDefault();
     const cleanEmail = (trollLoginEmail || '').trim().toLowerCase();
@@ -1108,13 +1120,13 @@ function Dashboard() {
       showToast('⚠️ Ingresa un correo electrónico');
       return;
     }
-    const isOwner = cleanEmail === 'miguerodriguez1008@gmail.com';
+    const isVip = isPremiumEmail(cleanEmail);
     const updated = {
       isLoggedIn: true,
       email: cleanEmail,
       username: cleanEmail.split('@')[0],
-      plan: isOwner ? 'ULTIMATE' : 'GRATUITO',
-      avatar: isOwner ? '👑' : '😎'
+      plan: isVip ? 'ULTIMATE' : 'GRATUITO',
+      avatar: isVip ? '👑' : '😎'
     };
     setTrollUser(updated);
     try {
@@ -1122,7 +1134,7 @@ function Dashboard() {
     } catch {}
     persistConfigToDisk({ trollUser: updated });
     setShowTrollMeLoginModal(false);
-    showToast(isOwner ? '👑 ¡Bienvenido Migue! Acceso ULTIMATE activado' : `👋 ¡Bienvenido ${updated.username}! Plan Gratuito activo`);
+    showToast(isVip ? `👑 ¡Bienvenido/a ${updated.username}! Acceso ULTIMATE activado` : `👋 ¡Bienvenido ${updated.username}! Plan Gratuito activo`);
   };
 
   const logoutTrollMe = () => {
@@ -1548,12 +1560,12 @@ function Dashboard() {
             } catch {}
           }
           if (loaded.trollUser && loaded.trollUser.email && loaded.trollUser.isLoggedIn) {
-            const isMigue = loaded.trollUser.email.toLowerCase().trim() === 'miguerodriguez1008@gmail.com';
+            const isVip = isPremiumEmail(loaded.trollUser.email);
             setTrollUser({
               ...loaded.trollUser,
               isLoggedIn: true,
-              plan: isMigue ? 'ULTIMATE' : 'GRATUITO',
-              avatar: isMigue ? '👑' : '😎'
+              plan: isVip ? 'ULTIMATE' : 'GRATUITO',
+              avatar: isVip ? '👑' : '😎'
             });
           }
         }
@@ -4901,7 +4913,7 @@ function Dashboard() {
                   color: '#fff',
                   fontWeight: 800
                 }}>
-                  {trollUser.plan === 'ULTIMATE' ? '👑 Tu cuenta tiene Acceso ULTIMATE Oficial' : 'Exclusivo para la cuenta de Migue'}
+                  {trollUser.plan === 'ULTIMATE' ? '👑 Tu cuenta tiene Acceso ULTIMATE Oficial' : 'Exclusivo para Streamers Oficiales y VIP'}
                 </div>
               </div>
             </div>
@@ -5789,13 +5801,25 @@ function Dashboard() {
               <button 
                 type="button" 
                 className="btn btn-secondary" 
+                style={{ width: '100%', padding: '0.75rem', marginBottom: '0.5rem', fontSize: '0.85rem' }}
+                onClick={() => {
+                  setTrollLoginEmail('karenbmarin30@gmail.com');
+                  loginTrollMe();
+                }}
+              >
+                👑 Acceso Rápido Streamer (karenbmarin30 - ULTIMATE)
+              </button>
+
+              <button 
+                type="button" 
+                className="btn btn-secondary" 
                 style={{ width: '100%', padding: '0.75rem', marginBottom: '1.5rem', fontSize: '0.85rem' }}
                 onClick={() => {
                   setTrollLoginEmail('miguerodriguez1008@gmail.com');
                   loginTrollMe();
                 }}
               >
-                👑 Acceso Rápido Cuenta Demo (miguerodriguez1008 - ULTIMATE)
+                👑 Acceso Rápido Streamer (miguerodriguez1008 - ULTIMATE)
               </button>
             </form>
 

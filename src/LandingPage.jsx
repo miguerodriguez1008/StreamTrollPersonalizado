@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './LandingPage.css';
 
 export default function LandingPage() {
-  const downloadUrl = "https://github.com/MigueAngel1109/StreamTroll/releases/latest/download/StreamTroll.Setup.1.2.0.exe";
+  const downloadUrl = "https://github.com/MigueAngel1109/StreamTroll/releases/latest/download/StreamTroll.Setup.1.2.1.exe";
   const [activeFaq, setActiveFaq] = useState(null);
   const [copiedObs, setCopiedObs] = useState(false);
   const [copiedSlider, setCopiedSlider] = useState(false);
@@ -23,7 +23,7 @@ export default function LandingPage() {
     <div className="landing-wrapper">
       {/* 1. Top Announcement Bar */}
       <div className="landing-announcement">
-        <span className="badge-pill">NUEVA VERSIÓN 1.2.0</span>
+        <span className="badge-pill">NUEVA VERSIÓN 1.2.1</span>
         <span>⚡ Modo Ultra Gaming activo: 0% caída de FPS en juegos competitivos & integración nativa con TikTok Live</span>
         <a href={downloadUrl} className="announcement-link">Descargar Ahora →</a>
       </div>
@@ -75,7 +75,7 @@ export default function LandingPage() {
                 <span style={{ fontSize: '1.4rem' }}>🚀</span>
                 <div>
                   <div style={{ fontWeight: 800 }}>Descargar para Windows</div>
-                  <div style={{ fontSize: '0.75rem', opacity: 0.9 }}>Versión 1.2.0 Oficial • 64-bit Gratis</div>
+                  <div style={{ fontSize: '0.75rem', opacity: 0.9 }}>Versión 1.2.1 Oficial • 64-bit Gratis</div>
                 </div>
               </a>
               <Link to="/dashboard" className="landing-btn-secondary">
@@ -201,7 +201,7 @@ export default function LandingPage() {
                   <h3>Descarga e Instala la App</h3>
                 </div>
                 <p>
-                  Descarga el instalador oficial de Windows (<code>StreamTroll Setup 1.2.0.exe</code>). 
+                  Descarga el instalador oficial de Windows (<code>StreamTroll Setup 1.2.1.exe</code>). 
                   Se instalará automáticamente en tu equipo sin necesidad de software adicional ni configuraciones complejas.
                 </p>
                 <div className="step-tip">

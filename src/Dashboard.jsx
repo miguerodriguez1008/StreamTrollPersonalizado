@@ -2742,7 +2742,7 @@ function Dashboard() {
         <div className="sidebar-footer">
           <div>
             <div>BY: Logix_haze</div>
-            <div style={{ fontSize: '0.7rem', color: '#475569' }}>v1.2.0 • ZENIC S.A.S</div>
+            <div style={{ fontSize: '0.7rem', color: '#475569' }}>v1.2.1 • ZENIC S.A.S</div>
             <a 
               href="#/legal" 
               target="_blank" 

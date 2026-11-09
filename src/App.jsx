@@ -8,16 +8,25 @@ import TimerOverlay from './TimerOverlay.jsx';
 import './index.css';
 
 function App() {
-  // Check direct query parameter (?view=slider) or pathname
+  // Check direct query parameter (?view=overlay) or pathname (/overlay)
+  const isDirectOverlay = 
+    typeof window !== 'undefined' && 
+    (window.location.search.includes('view=overlay') || window.location.pathname.endsWith('/overlay'));
+
+  if (isDirectOverlay) {
+    return <Overlay />;
+  }
+
+  // Check direct query parameter (?view=slider) or pathname (/slider)
   const isDirectSlider = 
     typeof window !== 'undefined' && 
-    (window.location.search.includes('view=slider') || window.location.pathname.endsWith('/slider'));
+    (window.location.search.includes('view=slider') || window.location.pathname.endsWith('/slider') || window.location.pathname.endsWith('/giftslider'));
 
   if (isDirectSlider) {
     return <GiftSliderOverlay />;
   }
 
-  // Check direct query parameter (?view=timer) or pathname
+  // Check direct query parameter (?view=timer) or pathname (/timer)
   const isDirectTimer = 
     typeof window !== 'undefined' && 
     (window.location.search.includes('view=timer') || window.location.pathname.endsWith('/timer'));

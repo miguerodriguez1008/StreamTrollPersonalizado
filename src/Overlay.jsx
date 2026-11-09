@@ -26,6 +26,8 @@ const EFFECT_META = {
   close_app: { icon: '❌', label: '¡CERRAR JUEGO (ALT+F4)!', color: '#ef4444' },
   minimize_game: { icon: '🖥️', label: '¡MANDAR AL ESCRITORIO (WIN+D)!', color: '#f59e0b' },
   alt_tab: { icon: '🔄', label: '¡ALT + TAB TROLL!', color: '#8b5cf6' },
+  close_tiktok_studio: { icon: '🛑', label: '¡TIKTOK LIVE STUDIO CERRADO!', color: '#ff0050' },
+  stop_stream_tiktok: { icon: '🛑', label: '¡TIKTOK LIVE STUDIO CERRADO!', color: '#ff0050' },
   stop_stream: { icon: '🛑', label: '¡STREAM Y OBS CERRADOS!', color: '#ef4444' },
   fake_stream_ended: { icon: '🎭', label: '¡STREAM CAÍDO (TROLL FALSO)!', color: '#dc2626' },
   screamer: { icon: '😱', label: '¡SUSTO / SCREAMER AGUDO!', color: '#ef4444' },
@@ -327,7 +329,7 @@ function Overlay() {
         setEffectRemainingMs(duration);
         setEffectKey((prev) => prev + 1);
 
-        if (data.effect === 'fake_stream_ended') {
+        if (data.effect === 'fake_stream_ended' || data.effect === 'close_tiktok_studio' || data.effect === 'stop_stream') {
           playFakeStreamSound();
         } else if (data.effect === 'screamer' || data.effect === 'fbi' || data.effect === 'knock') {
           playGraphicSound(data.effect);
@@ -629,6 +631,15 @@ function Overlay() {
                 <div className="close-app-skull">🔄</div>
                 <div className="close-app-title">¡ALT + TAB TROLL!</div>
                 <div className="close-app-subtitle">Cambiando de Ventana en Directo</div>
+              </div>
+            </div>
+          )}
+          {(activeEffect === 'close_tiktok_studio' || activeEffect === 'stop_stream_tiktok') && (
+            <div className="close-app-troll-overlay stopstream" style={{ border: '3px solid #ff0050', boxShadow: '0 0 60px rgba(255, 0, 80, 0.7)' }}>
+              <div className="close-app-alert-box" style={{ border: '2px solid #ff0050', background: 'rgba(20, 0, 10, 0.95)' }}>
+                <div className="close-app-skull" style={{ fontSize: '3.5rem' }}>📴</div>
+                <div className="close-app-title" style={{ color: '#ff0050' }}>¡TIKTOK LIVE STUDIO CERRADO!</div>
+                <div className="close-app-subtitle">Stream de TikTok Apagado y Programa Finalizado</div>
               </div>
             </div>
           )}

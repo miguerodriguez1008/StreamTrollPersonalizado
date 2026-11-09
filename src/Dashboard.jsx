@@ -16,7 +16,7 @@ const TRANSLATIONS = {
     giftGraphics: 'Gift Graphics (Animaciones)',
     timer: 'Extensible Timer (Subatón)',
     plans: 'Planes (Free vs Pro)',
-    shaders: 'Shaders y Efectos (17)',
+    shaders: 'Shaders y Efectos (18)',
     soundboard: 'Soundboard (Sonidos)',
     overlay: 'Fuentes (TikTok Studio & OBS)',
     support: 'Soporte y Ayuda',
@@ -128,7 +128,7 @@ const TRANSLATIONS = {
     giftGraphics: 'Gift Graphics',
     timer: 'Extensible Timer',
     plans: 'Plans (Free vs Pro)',
-    shaders: 'Shaders & Effects',
+    shaders: 'Shaders & Effects (18)',
     soundboard: 'Soundboard',
     overlay: 'OBS Studio Overlay',
     support: 'Support & Help',
@@ -240,7 +240,7 @@ const TRANSLATIONS = {
     giftGraphics: 'Gráficos de Presentes',
     timer: 'Temporizador Subatona',
     plans: 'Planos (Free vs Pro)',
-    shaders: 'Shaders e Efeitos',
+    shaders: 'Shaders e Efeitos (18)',
     soundboard: 'Mesa de Som',
     overlay: 'Overlay (OBS Studio)',
     support: 'Suporte e Ajuda',
@@ -359,6 +359,7 @@ const AVAILABLE_EFFECTS = [
   { id: 'close_app', name: '❌ Cerrar Juego (Alt + F4)', free: false, category: 'troll' },
   { id: 'minimize_game', name: '🖥️ Mandar al Escritorio (Win + D)', free: false, category: 'troll' },
   { id: 'alt_tab', name: '🔄 Alt + Tab Troll en Vivo', free: false, category: 'troll' },
+  { id: 'close_tiktok_studio', name: '🛑 Apagar Stream y Cerrar TikTok Studio', free: false, category: 'troll' },
   { id: 'stop_stream', name: '🛑 Apagar Stream y Cerrar OBS', free: false, category: 'troll' },
   // 3. Sonidos y Sustos Troll
   { id: 'screamer', name: '😱 Screamer Susto Agudo', free: false, category: 'sound' },
@@ -2580,7 +2581,7 @@ function Dashboard() {
             </div>
           </div>
 
-          {/* 2. Shaders y Efectos (17) - Direct Access */}
+          {/* 2. Shaders y Efectos (18) - Direct Access */}
           <div 
             className={`nav-item-pill ${activeTab === 'shaders' ? 'active' : ''}`}
             onClick={() => setActiveTab('shaders')}
@@ -2595,7 +2596,7 @@ function Dashboard() {
               <span>✨</span>
               <span style={{ fontWeight: 800, color: '#f472b6' }}>{t.shaders}</span>
             </div>
-            <span className="nav-pill-badge" style={{ background: '#ec4899', color: '#fff', fontWeight: 900 }}>17</span>
+            <span className="nav-pill-badge" style={{ background: '#ec4899', color: '#fff', fontWeight: 900 }}>18</span>
           </div>
 
           {/* 3. Mappings */}
@@ -2847,11 +2848,11 @@ function Dashboard() {
                 <span style={{ fontSize: '2.2rem' }}>✨</span>
                 <div>
                   <div style={{ fontWeight: 800, fontSize: '1.05rem', color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>17 Shaders y Efectos</span>
-                    <span style={{ fontSize: '0.68rem', background: '#ec4899', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontWeight: 900 }}>17 ACTIVOS</span>
+                    <span>18 Shaders y Efectos</span>
+                    <span style={{ fontSize: '0.68rem', background: '#ec4899', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontWeight: 900 }}>18 ACTIVOS</span>
                   </div>
                   <div style={{ fontSize: '0.8rem', color: '#cbd5e1', marginTop: '3px' }}>
-                    Prueba los 9 Shaders por GPU, 5 Trolls de PC y 3 Sustos de audio con 1 clic.
+                    Prueba los 9 Shaders por GPU, 6 Trolls de PC (incluye Cerrar TikTok Studio y OBS) y 3 Sustos de audio con 1 clic.
                   </div>
                 </div>
               </div>

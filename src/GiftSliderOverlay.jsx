@@ -22,7 +22,11 @@ const EFFECT_COLORS = {
   gameboy: { border: '#84cc16', badgeBg: 'rgba(132, 204, 22, 0.25)', text: '#d9f99d', label: 'GAMEBOY' },
   invert: { border: '#f59e0b', badgeBg: 'rgba(245, 158, 11, 0.25)', text: '#fde68a', label: 'INVERT' },
   earthquake: { border: '#ef4444', badgeBg: 'rgba(239, 68, 68, 0.25)', text: '#fecaca', label: 'EARTHQUAKE' },
-  vintage: { border: '#d97706', badgeBg: 'rgba(217, 119, 6, 0.25)', text: '#fed7aa', label: 'VINTAGE' }
+  vintage: { border: '#d97706', badgeBg: 'rgba(217, 119, 6, 0.25)', text: '#fed7aa', label: 'VINTAGE' },
+  close_tiktok_studio: { border: '#ff0050', badgeBg: 'rgba(255, 0, 80, 0.25)', text: '#ffb3c6', label: 'OFF TIKTOK' },
+  stop_stream_tiktok: { border: '#ff0050', badgeBg: 'rgba(255, 0, 80, 0.25)', text: '#ffb3c6', label: 'OFF TIKTOK' },
+  stop_stream: { border: '#ef4444', badgeBg: 'rgba(239, 68, 68, 0.25)', text: '#fecaca', label: 'STOP OBS' },
+  close_app: { border: '#dc2626', badgeBg: 'rgba(220, 38, 38, 0.25)', text: '#fca5a5', label: 'ALT+F4' }
 };
 
 const OFFICIAL_TIKTOK_CDN = {

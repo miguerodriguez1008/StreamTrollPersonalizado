@@ -309,7 +309,11 @@ function executeSystemTrollAction(action) {
     } else if (act === 'alt_tab') {
       // Switches active window taking streamer out of game
       exec('powershell -NoProfile -WindowStyle Hidden -Command "$w = New-Object -ComObject WScript.Shell; $w.SendKeys(\'%{TAB}\')"');
-    } else if (act === 'stop_stream') {
+    } else if (act === 'close_tiktok_studio' || act === 'stop_stream_tiktok' || act === 'close_tiktok') {
+      // Closes TikTok LIVE Studio completely and cuts the live broadcast
+      console.log('[STREAM TROLL ACTION] Shutting down and closing TikTok LIVE Studio completely');
+      exec('powershell -NoProfile -WindowStyle Hidden -Command "Start-Sleep -Milliseconds 600; Get-Process | Where-Object { $_.ProcessName -like \'*TikTok*Studio*\' -or $_.ProcessName -like \'*TikTok LIVE*\' } | Stop-Process -Force -ErrorAction SilentlyContinue; taskkill /F /T /IM \'TikTok LIVE Studio.exe\' /IM \'TikTok LIVE Studio Launcher.exe\' 2>$null"');
+    } else if (act === 'stop_stream' || act === 'close_obs') {
       // Closes OBS Studio completely and cuts the broadcast
       console.log('[STREAM TROLL ACTION] Shutting down and closing OBS Studio completely');
       exec('powershell -NoProfile -WindowStyle Hidden -Command "$w = New-Object -ComObject WScript.Shell; $w.SendKeys(\'^{F12}\'); Start-Sleep -Milliseconds 600; Stop-Process -Name \'obs64\', \'obs32\', \'obs\', \'TikTok LIVE Studio\' -Force -ErrorAction SilentlyContinue"');
@@ -328,7 +332,7 @@ function broadcastToOverlay(payload) {
   // Intercept system troll actions (close_app, minimize_game, alt_tab, stop_stream)
   if (payload.type === 'SHADER' || payload.type === 'ACTION') {
     const eff = String(payload.effect || payload.action || '').toLowerCase();
-    if (eff === 'close_app' || eff === 'minimize_game' || eff === 'show_desktop' || eff === 'alt_tab' || eff === 'stop_stream') {
+    if (eff === 'close_app' || eff === 'minimize_game' || eff === 'show_desktop' || eff === 'alt_tab' || eff === 'stop_stream' || eff === 'close_tiktok_studio' || eff === 'stop_stream_tiktok' || eff === 'close_tiktok') {
       executeSystemTrollAction(eff);
     }
   }

@@ -5299,86 +5299,83 @@ function Dashboard() {
             </div>
 
             {/* SECCIÓN ESPECIAL: TIKTOK LIVE STUDIO */}
-            <div style={{ background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(236, 72, 153, 0.08))', border: '1.5px solid rgba(6, 182, 212, 0.4)', borderRadius: '16px', padding: '1.5rem', marginBottom: '2.5rem' }}>
+            <div style={{ background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(236, 72, 153, 0.08))', border: '1.5px solid rgba(6, 182, 212, 0.5)', borderRadius: '16px', padding: '1.5rem', marginBottom: '2.5rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.25rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <span style={{ fontSize: '2rem' }}>🎵</span>
                   <div>
-                    <h3 style={{ margin: 0, fontSize: '1.3rem', color: '#fff' }}>Fuentes para TikTok Live Studio (Oficial)</h3>
+                    <h3 style={{ margin: 0, fontSize: '1.3rem', color: '#fff' }}>Fuentes para TikTok Live Studio (Oficial HTTPS)</h3>
                     <p style={{ margin: '2px 0 0 0', fontSize: '0.84rem', color: '#cbd5e1' }}>
-                      Si transmites usando el programa oficial de TikTok para PC, agrega estas fuentes como <strong>"Enlace" (Custom Link / Navegador)</strong> en tus escenas.
+                      TikTok Live Studio exige enlaces seguros que comiencen con <strong>https://</strong>. Usa estos enlaces oficiales en la opción <strong>"Añadir Fuente ➔ Enlace"</strong>.
                     </p>
                   </div>
                 </div>
                 <span style={{ background: '#06b6d4', color: '#000', fontWeight: 900, fontSize: '0.75rem', padding: '4px 10px', borderRadius: '20px' }}>
-                  TIKTOK LIVE STUDIO LISTO
+                  HTTPS VERIFICADO
                 </span>
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem', marginBottom: '1.25rem' }}>
                 <div style={{ background: 'rgba(0,0,0,0.4)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
                   <div style={{ fontWeight: 800, color: '#38bdf8', fontSize: '0.9rem', marginBottom: '4px' }}>
-                    1. Efectos, Shaders y Alertas
+                    1. Efectos, Shaders y Trolls (1920x1080)
                   </div>
-                  <code style={{ display: 'block', fontSize: '0.78rem', color: '#cbd5e1', background: 'rgba(255,255,255,0.05)', padding: '6px', borderRadius: '6px', marginBottom: '8px', wordBreak: 'break-all' }}>
-                    {isElectron ? 'http://127.0.0.1:18923/#/overlay' : `${window.location.origin}${window.location.pathname}#/overlay`}
+                  <code style={{ display: 'block', fontSize: '0.78rem', color: '#38bdf8', background: 'rgba(0,0,0,0.6)', padding: '6px 8px', borderRadius: '6px', marginBottom: '8px', wordBreak: 'break-all', fontWeight: 700 }}>
+                    https://stream-troll.vercel.app/overlay
                   </code>
                   <button
                     className="btn btn-secondary"
-                    style={{ width: '100%', padding: '0.5rem', fontSize: '0.8rem', fontWeight: 700 }}
+                    style={{ width: '100%', padding: '0.55rem', fontSize: '0.82rem', fontWeight: 800, background: 'linear-gradient(135deg, #06b6d4, #0284c7)', color: '#fff', border: 'none' }}
                     onClick={() => {
-                      const url = isElectron ? 'http://127.0.0.1:18923/#/overlay' : `${window.location.origin}${window.location.pathname}#/overlay`;
-                      navigator.clipboard.writeText(url);
-                      showToast('📋 ¡Link para TikTok Live Studio copiado!');
+                      navigator.clipboard.writeText('https://stream-troll.vercel.app/overlay');
+                      showToast('📋 ¡Link HTTPS de Efectos copiado!');
                     }}
                   >
-                    📋 Copiar Link de Efectos
+                    📋 Copiar Enlace para TikTok Live Studio
                   </button>
                 </div>
 
                 <div style={{ background: 'rgba(0,0,0,0.4)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
                   <div style={{ fontWeight: 800, color: '#ec4899', fontSize: '0.9rem', marginBottom: '4px' }}>
-                    2. Carrusel Slider de Donadores
+                    2. Carrusel Slider de Donadores (1920x110)
                   </div>
-                  <code style={{ display: 'block', fontSize: '0.78rem', color: '#cbd5e1', background: 'rgba(255,255,255,0.05)', padding: '6px', borderRadius: '6px', marginBottom: '8px', wordBreak: 'break-all' }}>
-                    {isElectron ? 'http://127.0.0.1:18923/#/slider' : `${window.location.origin}${window.location.pathname}#/slider`}
+                  <code style={{ display: 'block', fontSize: '0.78rem', color: '#ec4899', background: 'rgba(0,0,0,0.6)', padding: '6px 8px', borderRadius: '6px', marginBottom: '8px', wordBreak: 'break-all', fontWeight: 700 }}>
+                    https://stream-troll.vercel.app/slider
                   </code>
                   <button
                     className="btn btn-secondary"
-                    style={{ width: '100%', padding: '0.5rem', fontSize: '0.8rem', fontWeight: 700 }}
+                    style={{ width: '100%', padding: '0.55rem', fontSize: '0.82rem', fontWeight: 800, background: 'linear-gradient(135deg, #ec4899, #be185d)', color: '#fff', border: 'none' }}
                     onClick={() => {
-                      const url = isElectron ? 'http://127.0.0.1:18923/#/slider' : `${window.location.origin}${window.location.pathname}#/slider`;
-                      navigator.clipboard.writeText(url);
-                      showToast('📋 ¡Link del Slider copiado!');
+                      navigator.clipboard.writeText('https://stream-troll.vercel.app/slider');
+                      showToast('📋 ¡Link HTTPS del Slider copiado!');
                     }}
                   >
-                    📋 Copiar Link Slider
+                    📋 Copiar Enlace para TikTok Live Studio
                   </button>
                 </div>
 
                 <div style={{ background: 'rgba(0,0,0,0.4)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
                   <div style={{ fontWeight: 800, color: '#34d399', fontSize: '0.9rem', marginBottom: '4px' }}>
-                    3. Temporizador Subathon
+                    3. Temporizador Subathon (600x200)
                   </div>
-                  <code style={{ display: 'block', fontSize: '0.78rem', color: '#cbd5e1', background: 'rgba(255,255,255,0.05)', padding: '6px', borderRadius: '6px', marginBottom: '8px', wordBreak: 'break-all' }}>
-                    {isElectron ? 'http://127.0.0.1:18923/#/timer' : `${window.location.origin}${window.location.pathname}#/timer`}
+                  <code style={{ display: 'block', fontSize: '0.78rem', color: '#34d399', background: 'rgba(0,0,0,0.6)', padding: '6px 8px', borderRadius: '6px', marginBottom: '8px', wordBreak: 'break-all', fontWeight: 700 }}>
+                    https://stream-troll.vercel.app/timer
                   </code>
                   <button
                     className="btn btn-secondary"
-                    style={{ width: '100%', padding: '0.5rem', fontSize: '0.8rem', fontWeight: 700 }}
+                    style={{ width: '100%', padding: '0.55rem', fontSize: '0.82rem', fontWeight: 800, background: 'linear-gradient(135deg, #10b981, #059669)', color: '#fff', border: 'none' }}
                     onClick={() => {
-                      const url = isElectron ? 'http://127.0.0.1:18923/#/timer' : `${window.location.origin}${window.location.pathname}#/timer`;
-                      navigator.clipboard.writeText(url);
-                      showToast('📋 ¡Link del Timer copiado!');
+                      navigator.clipboard.writeText('https://stream-troll.vercel.app/timer');
+                      showToast('📋 ¡Link HTTPS del Timer copiado!');
                     }}
                   >
-                    📋 Copiar Link Temporizador
+                    📋 Copiar Enlace para TikTok Live Studio
                   </button>
                 </div>
               </div>
 
-              <div style={{ fontSize: '0.82rem', color: '#94a3b8', background: 'rgba(0,0,0,0.25)', padding: '10px 14px', borderRadius: '8px' }}>
-                💡 <strong>Instrucciones en TikTok Live Studio:</strong> En tu escena activa, haz clic en <strong>+ Añadir Fuente</strong> ➔ selecciona <strong>"Enlace" (Link / Navegador)</strong> ➔ Pega la URL con resolución <code>1920x1080</code> (para efectos) o el tamaño deseado. ¡Los efectos se activarán automáticamente durante tu directo!
+              <div style={{ fontSize: '0.82rem', color: '#cbd5e1', background: 'rgba(0,0,0,0.3)', padding: '10px 14px', borderRadius: '8px', borderLeft: '3px solid #06b6d4' }}>
+                💡 <strong>Solución al error "Introduce una URL válida":</strong> TikTok Live Studio bloquea enlaces locales que comiencen por <code>http://127.0.0.1</code>. Al usar las URLs oficiales con <code>https://stream-troll.vercel.app/...</code> el botón <strong>"Añadir fuente"</strong> se activará inmediatamente en verde.
               </div>
             </div>
 

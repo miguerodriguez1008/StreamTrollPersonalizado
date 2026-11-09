@@ -256,12 +256,12 @@ export default function LandingPage() {
                 <div className="obs-urls-container">
                   <div className="obs-url-row">
                     <div className="obs-url-info">
-                      <span className="obs-url-tag" style={{ color: '#38bdf8' }}>Efectos, Shaders y Trolls:</span>
-                      <code className="obs-url-code">http://127.0.0.1:18923/#/overlay</code>
+                      <span className="obs-url-tag" style={{ color: '#38bdf8' }}>Efectos, Shaders y Trolls (TikTok Studio & OBS):</span>
+                      <code className="obs-url-code">https://stream-troll.vercel.app/overlay</code>
                     </div>
                     <button 
                       className="btn-copy-code"
-                      onClick={() => handleCopy('http://127.0.0.1:18923/#/overlay', setCopiedObs)}
+                      onClick={() => handleCopy('https://stream-troll.vercel.app/overlay', setCopiedObs)}
                     >
                       {copiedObs ? '✅ Copiado' : '📋 Copiar Enlace'}
                     </button>
@@ -269,12 +269,12 @@ export default function LandingPage() {
 
                   <div className="obs-url-row">
                     <div className="obs-url-info">
-                      <span className="obs-url-tag" style={{ color: '#ec4899' }}>Carrusel Slider de Regalos:</span>
-                      <code className="obs-url-code">http://127.0.0.1:18923/#/slider</code>
+                      <span className="obs-url-tag" style={{ color: '#ec4899' }}>Carrusel Slider de Regalos (TikTok Studio & OBS):</span>
+                      <code className="obs-url-code">https://stream-troll.vercel.app/slider</code>
                     </div>
                     <button 
                       className="btn-copy-code"
-                      onClick={() => handleCopy('http://127.0.0.1:18923/#/slider', setCopiedSlider)}
+                      onClick={() => handleCopy('https://stream-troll.vercel.app/slider', setCopiedSlider)}
                     >
                       {copiedSlider ? '✅ Copiado' : '📋 Copiar Enlace'}
                     </button>
@@ -282,12 +282,12 @@ export default function LandingPage() {
 
                   <div className="obs-url-row">
                     <div className="obs-url-info">
-                      <span className="obs-url-tag" style={{ color: '#34d399' }}>Temporizador Subathon:</span>
-                      <code className="obs-url-code">http://127.0.0.1:18923/#/timer</code>
+                      <span className="obs-url-tag" style={{ color: '#34d399' }}>Temporizador Subathon (TikTok Studio & OBS):</span>
+                      <code className="obs-url-code">https://stream-troll.vercel.app/timer</code>
                     </div>
                     <button 
                       className="btn-copy-code"
-                      onClick={() => handleCopy('http://127.0.0.1:18923/#/timer', setCopiedTimer)}
+                      onClick={() => handleCopy('https://stream-troll.vercel.app/timer', setCopiedTimer)}
                     >
                       {copiedTimer ? '✅ Copiado' : '📋 Copiar Enlace'}
                     </button>

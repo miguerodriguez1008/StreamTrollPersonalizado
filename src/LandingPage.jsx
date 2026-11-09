@@ -418,7 +418,7 @@ export default function LandingPage() {
               <div className="card-top-icon">🗣️</div>
               <h3>Text-to-Speech (TTS) & Alertas</h3>
               <p>
-                Voz robótica nativa que lee en voz alta los nombres y mensajes de los donadores. Personaliza plantillas de texto como <em>"¡Gracias {user} por el {gift}!"</em> sin retardos.
+                Voz robótica nativa que lee en voz alta los nombres y mensajes de los donadores. Personaliza plantillas de texto como <em>"¡Gracias @usuario por el Regalo!"</em> sin retardos.
               </p>
             </div>
 

@@ -13,12 +13,12 @@ const TRANSLATIONS = {
     tips: 'Propinas y Donaciones',
     contests: 'Sorteos y Concursos',
     chatbot: 'Chatbot',
-    giftGraphics: 'Gráficos de Regalos',
-    timer: 'Temporizador Subatón',
+    giftGraphics: 'Gift Graphics (Animaciones)',
+    timer: 'Extensible Timer (Subatón)',
     plans: 'Planes (Free vs Pro)',
-    shaders: 'Shaders y Efectos',
+    shaders: 'Shaders y Efectos (17)',
     soundboard: 'Soundboard (Sonidos)',
-    overlay: 'Overlay (OBS Studio)',
+    overlay: 'Fuentes (TikTok Studio & OBS)',
     support: 'Soporte y Ayuda',
     logout: 'Cerrar Sesión',
     loginTrollMe: 'Iniciar Sesión',
@@ -2580,7 +2580,25 @@ function Dashboard() {
             </div>
           </div>
 
-          {/* 2. Mappings */}
+          {/* 2. Shaders y Efectos (17) - Direct Access */}
+          <div 
+            className={`nav-item-pill ${activeTab === 'shaders' ? 'active' : ''}`}
+            onClick={() => setActiveTab('shaders')}
+            style={{
+              background: activeTab === 'shaders' 
+                ? 'linear-gradient(135deg, rgba(236, 72, 153, 0.25), rgba(139, 92, 246, 0.25))' 
+                : 'transparent',
+              border: '1.5px solid rgba(236, 72, 153, 0.4)'
+            }}
+          >
+            <div className="nav-item-left">
+              <span>✨</span>
+              <span style={{ fontWeight: 800, color: '#f472b6' }}>{t.shaders}</span>
+            </div>
+            <span className="nav-pill-badge" style={{ background: '#ec4899', color: '#fff', fontWeight: 900 }}>17</span>
+          </div>
+
+          {/* 3. Mappings */}
           <div 
             className={`nav-item-pill ${activeTab === 'mappings' ? 'active' : ''}`}
             onClick={() => setActiveTab('mappings')}
@@ -2595,54 +2613,25 @@ function Dashboard() {
             </div>
           </div>
 
-          {/* Slider de Regalos (OBS Overlay) */}
+          {/* 4. Overlay & Fuentes (OBS & TikTok Studio) */}
           <div 
-            className={`nav-item-pill ${activeTab === 'slider' ? 'active' : ''}`}
-            onClick={() => setActiveTab('slider')}
+            className={`nav-item-pill ${activeTab === 'overlay' ? 'active' : ''}`}
+            onClick={() => setActiveTab('overlay')}
+            style={{
+              background: activeTab === 'overlay' 
+                ? 'linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(59, 130, 246, 0.25))' 
+                : 'transparent',
+              border: '1.5px solid rgba(6, 182, 212, 0.4)'
+            }}
           >
             <div className="nav-item-left">
-              <span>🎠</span>
-              <span>{t.slider || 'Slider de Regalos'}</span>
+              <span>🖥️</span>
+              <span style={{ fontWeight: 800, color: '#38bdf8' }}>{t.overlay}</span>
             </div>
-            <span className="nav-pill-badge badge-new">{t.badgeObs || 'OBS'}</span>
+            <span className="nav-pill-badge" style={{ background: '#06b6d4', color: '#fff', fontWeight: 800, fontSize: '0.65rem' }}>TIKTOK</span>
           </div>
 
-          {/* 3. Tips & Donations */}
-          <div 
-            className={`nav-item-pill ${activeTab === 'tips' ? 'active' : ''}`}
-            onClick={() => setActiveTab('tips')}
-          >
-            <div className="nav-item-left">
-              <span>🤍</span>
-              <span>{t.tips}</span>
-            </div>
-            <span className="nav-pill-badge badge-money">$</span>
-          </div>
-
-          {/* 4. Contests & Raffles */}
-          <div 
-            className={`nav-item-pill ${activeTab === 'contests' ? 'active' : ''}`}
-            onClick={() => setActiveTab('contests')}
-          >
-            <div className="nav-item-left">
-              <span>🏆</span>
-              <span>{t.contests}</span>
-            </div>
-            <span className="nav-pill-badge badge-soon">{t.badgeSoon || 'PRONTO'}</span>
-          </div>
-
-          {/* 5. Chatbot */}
-          <div 
-            className={`nav-item-pill ${activeTab === 'chatbot' ? 'active' : ''}`}
-            onClick={() => setActiveTab('chatbot')}
-          >
-            <div className="nav-item-left">
-              <span>🤖</span>
-              <span>{t.chatbot}</span>
-            </div>
-          </div>
-
-          {/* 6. Gift Graphics */}
+          {/* 5. Gift Graphics (Animaciones en Pantalla) */}
           <div 
             className={`nav-item-pill ${activeTab === 'gift-graphics' ? 'active' : ''}`}
             onClick={() => setActiveTab('gift-graphics')}
@@ -2654,7 +2643,7 @@ function Dashboard() {
             <span className="badge-dot"></span>
           </div>
 
-          {/* 7. Extensible Timer */}
+          {/* 6. Extensible Timer */}
           <div 
             className={`nav-item-pill ${activeTab === 'timer' ? 'active' : ''}`}
             onClick={() => setActiveTab('timer')}
@@ -2666,7 +2655,53 @@ function Dashboard() {
             <span className="nav-pill-badge badge-new">{t.badgeNew || 'NEW'}</span>
           </div>
 
-          {/* 8. Planes (Free vs Ultimate) */}
+          {/* 7. Slider de Regalos (OBS Overlay) */}
+          <div 
+            className={`nav-item-pill ${activeTab === 'slider' ? 'active' : ''}`}
+            onClick={() => setActiveTab('slider')}
+          >
+            <div className="nav-item-left">
+              <span>🎠</span>
+              <span>{t.slider || 'Slider de Regalos'}</span>
+            </div>
+            <span className="nav-pill-badge badge-new">{t.badgeObs || 'OBS'}</span>
+          </div>
+
+          {/* 8. Soundboard */}
+          <div 
+            className={`nav-item-pill ${activeTab === 'soundboard' ? 'active' : ''}`}
+            onClick={() => setActiveTab('soundboard')}
+          >
+            <div className="nav-item-left">
+              <span>🔊</span>
+              <span>{t.soundboard}</span>
+            </div>
+          </div>
+
+          {/* 9. Alertas & TTS */}
+          <div 
+            className={`nav-item-pill ${activeTab === 'alertas' ? 'active' : ''}`}
+            onClick={() => setActiveTab('alertas')}
+          >
+            <div className="nav-item-left">
+              <span>💸</span>
+              <span>Alertas & TTS</span>
+            </div>
+          </div>
+
+          {/* 10. Tips & Donations */}
+          <div 
+            className={`nav-item-pill ${activeTab === 'tips' ? 'active' : ''}`}
+            onClick={() => setActiveTab('tips')}
+          >
+            <div className="nav-item-left">
+              <span>🤍</span>
+              <span>{t.tips}</span>
+            </div>
+            <span className="nav-pill-badge badge-money">$</span>
+          </div>
+
+          {/* 11. Planes (Free vs Ultimate) */}
           <div 
             className={`nav-item-pill ${activeTab === 'plans' ? 'active' : ''}`}
             onClick={() => setActiveTab('plans')}
@@ -2679,44 +2714,27 @@ function Dashboard() {
             <span className="nav-pill-badge badge-pro">{t.badgePro || 'PRO'}</span>
           </div>
 
-          {/* Utility Tools */}
-          <div style={{ marginTop: '0.8rem', paddingTop: '0.8rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-            <div 
-              className={`nav-item-pill ${activeTab === 'shaders' ? 'active' : ''}`}
-              onClick={() => setActiveTab('shaders')}
-            >
-              <div className="nav-item-left">
-                <span>✨</span>
-                <span>{t.shaders}</span>
-              </div>
+          {/* 12. Chatbot */}
+          <div 
+            className={`nav-item-pill ${activeTab === 'chatbot' ? 'active' : ''}`}
+            onClick={() => setActiveTab('chatbot')}
+          >
+            <div className="nav-item-left">
+              <span>🤖</span>
+              <span>{t.chatbot}</span>
             </div>
-            <div 
-              className={`nav-item-pill ${activeTab === 'overlay' ? 'active' : ''}`}
-              onClick={() => setActiveTab('overlay')}
-            >
-              <div className="nav-item-left">
-                <span>🖥️</span>
-                <span>{t.overlay}</span>
-              </div>
+          </div>
+
+          {/* 13. Contests & Raffles */}
+          <div 
+            className={`nav-item-pill ${activeTab === 'contests' ? 'active' : ''}`}
+            onClick={() => setActiveTab('contests')}
+          >
+            <div className="nav-item-left">
+              <span>🏆</span>
+              <span>{t.contests}</span>
             </div>
-            <div 
-              className={`nav-item-pill ${activeTab === 'soundboard' ? 'active' : ''}`}
-              onClick={() => setActiveTab('soundboard')}
-            >
-              <div className="nav-item-left">
-                <span>🔊</span>
-                <span>{t.soundboard}</span>
-              </div>
-            </div>
-            <div 
-              className={`nav-item-pill ${activeTab === 'alertas' ? 'active' : ''}`}
-              onClick={() => setActiveTab('alertas')}
-            >
-              <div className="nav-item-left">
-                <span>💸</span>
-                <span>Alertas & TTS</span>
-              </div>
-            </div>
+            <span className="nav-pill-badge badge-soon">{t.badgeSoon || 'PRONTO'}</span>
           </div>
         </div>
 
@@ -2804,6 +2822,68 @@ function Dashboard() {
             ========================================================= */}
         {activeTab === 'dashboard' && (
           <div>
+            {/* Quick Action Highlights Banner */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '1rem',
+              marginBottom: '1.5rem'
+            }}>
+              <div 
+                onClick={() => setActiveTab('shaders')}
+                style={{
+                  background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.18), rgba(139, 92, 246, 0.22))',
+                  border: '1.5px solid rgba(236, 72, 153, 0.45)',
+                  borderRadius: '16px',
+                  padding: '1.15rem 1.35rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 8px 25px rgba(236, 72, 153, 0.12)'
+                }}
+              >
+                <span style={{ fontSize: '2.2rem' }}>✨</span>
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: '1.05rem', color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span>17 Shaders y Efectos</span>
+                    <span style={{ fontSize: '0.68rem', background: '#ec4899', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontWeight: 900 }}>17 ACTIVOS</span>
+                  </div>
+                  <div style={{ fontSize: '0.8rem', color: '#cbd5e1', marginTop: '3px' }}>
+                    Prueba los 9 Shaders por GPU, 5 Trolls de PC y 3 Sustos de audio con 1 clic.
+                  </div>
+                </div>
+              </div>
+
+              <div 
+                onClick={() => setActiveTab('overlay')}
+                style={{
+                  background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.18), rgba(59, 130, 246, 0.22))',
+                  border: '1.5px solid rgba(6, 182, 212, 0.45)',
+                  borderRadius: '16px',
+                  padding: '1.15rem 1.35rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 8px 25px rgba(6, 182, 212, 0.12)'
+                }}
+              >
+                <span style={{ fontSize: '2.2rem' }}>🎥</span>
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: '1.05rem', color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span>TikTok Live Studio & OBS</span>
+                    <span style={{ fontSize: '0.68rem', background: '#06b6d4', color: '#fff', padding: '2px 8px', borderRadius: '12px', fontWeight: 900 }}>OFICIAL</span>
+                  </div>
+                  <div style={{ fontSize: '0.8rem', color: '#cbd5e1', marginTop: '3px' }}>
+                    Copia tus enlaces de Navegador para proyectar el Overlay en tu directo.
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Screen Selection & Engine Section */}
             <div className="screen-selection-section">
               <div className="screen-section-header">

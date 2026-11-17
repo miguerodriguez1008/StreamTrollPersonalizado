@@ -392,10 +392,17 @@ function Overlay() {
   }, [isDesktopOverlay]);
 
   useEffect(() => {
-    // In OBS browser source, background is transparent; in Chroma mode, it's green #00ff00
+    // Add overlay classes to ensure 100% full-screen coverage in all viewports/browsers
+    document.documentElement.classList.add('overlay-active');
+    document.body.classList.add('overlay-active');
     document.body.style.backgroundColor = isChroma ? '#00ff00' : 'transparent';
     document.body.style.backgroundImage = 'none';
     document.body.style.color = 'white';
+    document.body.style.margin = '0';
+    document.body.style.padding = '0';
+    document.body.style.overflow = 'hidden';
+    document.body.style.width = '100vw';
+    document.body.style.height = '100vh';
 
     // Hide status banner after 4 seconds so it doesn't show in live stream
     const timer = setTimeout(() => setShowStatus(false), 4000);
@@ -488,9 +495,14 @@ function Overlay() {
       sseSources.forEach((es) => {
         try { es.close(); } catch {}
       });
+      document.documentElement.classList.remove('overlay-active');
+      document.body.classList.remove('overlay-active');
       document.body.style.backgroundColor = '';
       document.body.style.backgroundImage = '';
       document.body.style.color = '';
+      document.body.style.width = '';
+      document.body.style.height = '';
+      document.body.style.overflow = '';
     };
   }, [isChroma, handleIncomingPayload]);
 
@@ -522,7 +534,7 @@ function Overlay() {
       : null;
 
   return (
-    <div className={`overlay-container ${activeEffect}`}>
+    <div className={`overlay-container ${activeEffect} overlay-page-root`}>
       {/* =========================================================
           DEDICATED MAPPED GIFTS SLIDER BAR (OBS OVERLAY)
           ========================================================= */}

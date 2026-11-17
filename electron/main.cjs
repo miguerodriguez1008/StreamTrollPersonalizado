@@ -347,6 +347,10 @@ function broadcastToOverlay(payload) {
         hideDesktopOverlayTimeout = null;
       }
       try {
+        const primary = screen.getPrimaryDisplay();
+        if (primary && primary.bounds) {
+          desktopOverlayWindow.setBounds(primary.bounds);
+        }
         if (!desktopOverlayWindow.isVisible()) {
           desktopOverlayWindow.showInactive();
         }
@@ -580,35 +584,39 @@ function createDesktopOverlayWindow(targetDisplayId = null) {
     const displays = screen.getAllDisplays();
     const primary = screen.getPrimaryDisplay();
     const targetDisplay = (targetDisplayId && displays.find((d) => String(d.id) === String(targetDisplayId))) || primary;
-    const { x, y, width, height } = targetDisplay.bounds;
+    const bounds = targetDisplay.bounds;
 
     if (desktopOverlayEnabled && desktopOverlayWindow && !desktopOverlayWindow.isDestroyed()) {
-      desktopOverlayWindow.setBounds({ x, y, width, height });
+      desktopOverlayWindow.setBounds(bounds);
       return;
     }
 
     desktopOverlayWindow = new BrowserWindow({
-      x,
-      y,
-      width,
-      height,
+      x: bounds.x,
+      y: bounds.y,
+      width: bounds.width,
+      height: bounds.height,
       show: false,
       transparent: true,
       frame: false,
       alwaysOnTop: true,
       skipTaskbar: true,
-      resizable: false,
+      resizable: true,
       movable: false,
       focusable: false,
       hasShadow: false,
-      fullscreenable: false,
+      fullscreenable: true,
+      simpleFullscreen: true,
       backgroundColor: '#00000000',
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false,
-        backgroundThrottling: false
+        backgroundThrottling: false,
+        zoomFactor: 1.0
       }
     });
+
+    desktopOverlayWindow.setBounds(bounds);
 
     // Make the overlay 100% click-through so the user can play games normally without losing mouse/keyboard control
     desktopOverlayWindow.setIgnoreMouseEvents(true, { forward: true });

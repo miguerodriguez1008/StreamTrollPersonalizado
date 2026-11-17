@@ -443,19 +443,19 @@ export const isGiftNameMatch = (incomingName, targetName, incomingGiftId = null,
 // TikTok Gifts Catalog with official TikTok images from regalos.json
 const TIKTOK_GIFTS_CATALOG = (regalosData && Array.isArray(regalosData.gifts))
   ? regalosData.gifts.map((g) => ({
-      id: g.id || g.name,
-      giftId: g.id,
-      name: g.name,
-      coins: Number(g.price) || 1,
-      image: g.image,
-      icon: (g.name.toLowerCase().includes('rose') || g.name.toLowerCase().includes('rosa')) ? '🌹' :
-            (g.name.toLowerCase().includes('lion') || g.name.toLowerCase().includes('leon')) ? '🦁' :
-            (g.name.toLowerCase().includes('heart')) ? '💖' :
-            (g.name.toLowerCase().includes('money')) ? '🔫' :
+    id: g.id || g.name,
+    giftId: g.id,
+    name: g.name,
+    coins: Number(g.price) || 1,
+    image: g.image,
+    icon: (g.name.toLowerCase().includes('rose') || g.name.toLowerCase().includes('rosa')) ? '🌹' :
+      (g.name.toLowerCase().includes('lion') || g.name.toLowerCase().includes('leon')) ? '🦁' :
+        (g.name.toLowerCase().includes('heart')) ? '💖' :
+          (g.name.toLowerCase().includes('money')) ? '🔫' :
             (g.name.toLowerCase().includes('doughnut') || g.name.toLowerCase().includes('donut') || g.name.toLowerCase().includes('dona')) ? '🍩' :
-            (g.name.toLowerCase().includes('capybara')) ? '🦫' :
-            (g.name.toLowerCase().includes('panda')) ? '🐼' : '🎁'
-    }))
+              (g.name.toLowerCase().includes('capybara')) ? '🦫' :
+                (g.name.toLowerCase().includes('panda')) ? '🐼' : '🎁'
+  }))
   : [];
 
 // TikTok Live Events Catalog
@@ -664,7 +664,7 @@ function Dashboard() {
           };
         }
       }
-    } catch {}
+    } catch { }
     return {
       isLoggedIn: false,
       email: '',
@@ -682,7 +682,7 @@ function Dashboard() {
 
   // Mappings View State (Image 2: Regalos vs Eventos)
   const [mappingSubTab, setMappingSubTab] = useState('gifts'); // 'gifts' | 'events'
-  
+
   const [giftMappings, setGiftMappings] = useState(() => {
     try {
       const saved = localStorage.getItem('stream_troll_mappings');
@@ -766,7 +766,7 @@ function Dashboard() {
     setComboMode(mode);
     try {
       localStorage.setItem('stream_troll_combo_mode', mode);
-    } catch {}
+    } catch { }
   };
 
   // Inline Rename state for Mapped Gifts (sets the name that appears on the OBS streamer slider)
@@ -799,11 +799,11 @@ function Dashboard() {
       try {
         localStorage.setItem('stream_troll_mappings', JSON.stringify(updated));
         localStorage.setItem('stream_troll_gift_mappings', JSON.stringify(updated));
-      } catch {}
+      } catch { }
       persistConfigToDisk({ giftMappings: updated });
       try {
         channel.postMessage({ type: 'ENGINE_CONFIG', giftMappings: updated });
-      } catch {}
+      } catch { }
       dispatchToOverlay({ type: 'ENGINE_CONFIG', giftMappings: updated });
       return updated;
     });
@@ -834,7 +834,7 @@ function Dashboard() {
   const handleToggleDesktopOverlay = (enabled) => {
     setDesktopOverlayActive(enabled);
     if (ipcRendererRef.current) {
-      ipcRendererRef.current.invoke('system:toggle-desktop-overlay', enabled).catch(() => {});
+      ipcRendererRef.current.invoke('system:toggle-desktop-overlay', enabled).catch(() => { });
     }
     showToast(enabled ? '🖥️ Superposición de escritorio activada' : '⚡ Superposición de escritorio desactivada (0% impacto en juegos)');
   };
@@ -872,7 +872,7 @@ function Dashboard() {
     try {
       const saved = localStorage.getItem('stream_troll_timer_config');
       if (saved) return JSON.parse(saved);
-    } catch {}
+    } catch { }
     return {
       enabled: true,
       running: false,
@@ -913,7 +913,7 @@ function Dashboard() {
         const nextCfg = { ...prev, currentSeconds: nextSec };
         try {
           channel.postMessage({ type: 'TIMER_SYNC', timerConfig: nextCfg });
-        } catch {}
+        } catch { }
         return nextCfg;
       });
     }, 1000);
@@ -924,13 +924,13 @@ function Dashboard() {
   const persistConfigToDisk = useCallback((partialData) => {
     try {
       if (ipcRendererRef.current) {
-        ipcRendererRef.current.invoke('config:save', partialData).catch(() => {});
+        ipcRendererRef.current.invoke('config:save', partialData).catch(() => { });
       }
       fetch('http://127.0.0.1:18923/api/config', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(partialData)
-      }).catch(() => {});
+      }).catch(() => { });
     } catch (e) {
       console.warn('Persist config error:', e);
     }
@@ -941,11 +941,11 @@ function Dashboard() {
       const next = { ...prev, ...patch };
       try {
         localStorage.setItem('stream_troll_slider_config', JSON.stringify(next));
-      } catch {}
+      } catch { }
       persistConfigToDisk({ sliderConfig: next });
       try {
         channel.postMessage({ type: 'ENGINE_CONFIG', sliderConfig: next });
-      } catch {}
+      } catch { }
       return next;
     });
   }, [persistConfigToDisk]);
@@ -1004,12 +1004,12 @@ function Dashboard() {
 
     try {
       channel.postMessage(payload);
-    } catch {}
+    } catch { }
 
     if (ipcRendererRef.current) {
       try {
-        ipcRendererRef.current.invoke('overlay:dispatch', payload).catch(() => {});
-      } catch {}
+        ipcRendererRef.current.invoke('overlay:dispatch', payload).catch(() => { });
+      } catch { }
     }
 
     const targets = ['http://127.0.0.1:18923/dispatch'];
@@ -1022,7 +1022,7 @@ function Dashboard() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
-      }).catch(() => {});
+      }).catch(() => { });
     });
   }, []);
 
@@ -1132,7 +1132,7 @@ function Dashboard() {
     setTrollUser(updated);
     try {
       localStorage.setItem('troll_me_user', JSON.stringify(updated));
-    } catch {}
+    } catch { }
     persistConfigToDisk({ trollUser: updated });
     setShowTrollMeLoginModal(false);
     showToast(isVip ? `👑 ¡Bienvenido/a ${updated.username}! Acceso ULTIMATE activado` : `👋 ¡Bienvenido ${updated.username}! Plan Gratuito activo`);
@@ -1150,7 +1150,7 @@ function Dashboard() {
     try {
       localStorage.removeItem('troll_me_user');
       localStorage.setItem('troll_me_user', JSON.stringify(updated));
-    } catch {}
+    } catch { }
     persistConfigToDisk({ trollUser: updated });
     setTrollLoginEmail('');
     setTrollLoginPass('');
@@ -1182,7 +1182,7 @@ function Dashboard() {
 
   const connectObs = () => {
     if (obsSocketRef.current) {
-      try { obsSocketRef.current.close(); } catch {}
+      try { obsSocketRef.current.close(); } catch { }
     }
 
     setObsConnecting(true);
@@ -1283,7 +1283,7 @@ function Dashboard() {
 
   const disconnectObs = () => {
     if (obsSocketRef.current) {
-      try { obsSocketRef.current.close(); } catch {}
+      try { obsSocketRef.current.close(); } catch { }
       obsSocketRef.current = null;
     }
     setObsConnected(false);
@@ -1297,8 +1297,8 @@ function Dashboard() {
       return;
     }
 
-    const overlayUrl = isElectron 
-      ? 'http://127.0.0.1:18923/#/overlay' 
+    const overlayUrl = isElectron
+      ? 'http://127.0.0.1:18923/#/overlay'
       : `${window.location.origin}${window.location.pathname}#/overlay`;
 
     obsSocketRef.current.send(JSON.stringify({
@@ -1324,8 +1324,8 @@ function Dashboard() {
   };
 
   const downloadObsDragFile = () => {
-    const overlayUrl = isElectron 
-      ? 'http://127.0.0.1:18923/#/overlay' 
+    const overlayUrl = isElectron
+      ? 'http://127.0.0.1:18923/#/overlay'
       : `${window.location.origin}${window.location.pathname}#/overlay`;
 
     const htmlContent = `<!DOCTYPE html>
@@ -1373,8 +1373,8 @@ function Dashboard() {
       return;
     }
 
-    const sliderUrl = isElectron 
-      ? 'http://127.0.0.1:18923/#/slider' 
+    const sliderUrl = isElectron
+      ? 'http://127.0.0.1:18923/#/slider'
       : `${window.location.origin}${window.location.pathname}#/slider`;
 
     obsSocketRef.current.send(JSON.stringify({
@@ -1400,8 +1400,8 @@ function Dashboard() {
   };
 
   const downloadSliderDragFile = () => {
-    const sliderUrl = isElectron 
-      ? 'http://127.0.0.1:18923/#/slider' 
+    const sliderUrl = isElectron
+      ? 'http://127.0.0.1:18923/#/slider'
       : `${window.location.origin}${window.location.pathname}#/slider`;
 
     const htmlContent = `<!DOCTYPE html>
@@ -1449,8 +1449,8 @@ function Dashboard() {
       return;
     }
 
-    const timerUrl = isElectron 
-      ? 'http://127.0.0.1:18923/#/timer' 
+    const timerUrl = isElectron
+      ? 'http://127.0.0.1:18923/#/timer'
       : `${window.location.origin}${window.location.pathname}#/timer`;
 
     obsSocketRef.current.send(JSON.stringify({
@@ -1476,8 +1476,8 @@ function Dashboard() {
   };
 
   const downloadTimerDragFile = () => {
-    const timerUrl = isElectron 
-      ? 'http://127.0.0.1:18923/#/timer' 
+    const timerUrl = isElectron
+      ? 'http://127.0.0.1:18923/#/timer'
       : `${window.location.origin}${window.location.pathname}#/timer`;
 
     const htmlContent = `<!DOCTYPE html>
@@ -1540,13 +1540,13 @@ function Dashboard() {
             try {
               localStorage.setItem('stream_troll_mappings', JSON.stringify(loaded.giftMappings));
               localStorage.setItem('stream_troll_gift_mappings', JSON.stringify(loaded.giftMappings));
-            } catch {}
+            } catch { }
           }
           if (Array.isArray(loaded.eventMappings) && loaded.eventMappings.length > 0) {
             setEventMappings(loaded.eventMappings);
             try {
               localStorage.setItem('stream_troll_event_mappings', JSON.stringify(loaded.eventMappings));
-            } catch {}
+            } catch { }
           }
           if (loaded.sliderConfig) {
             setSliderConfig((prev) => ({ ...prev, ...loaded.sliderConfig }));
@@ -1558,7 +1558,7 @@ function Dashboard() {
             setGiftGraphics(loaded.giftGraphics);
             try {
               localStorage.setItem('stream_troll_gift_graphics', JSON.stringify(loaded.giftGraphics));
-            } catch {}
+            } catch { }
           }
           if (loaded.trollUser && loaded.trollUser.email && loaded.trollUser.isLoggedIn) {
             const isVip = isPremiumEmail(loaded.trollUser.email);
@@ -1592,11 +1592,11 @@ function Dashboard() {
       const updated = { ...prev, ...newCfg };
       try {
         localStorage.setItem('stream_troll_timer_config', JSON.stringify(updated));
-      } catch {}
+      } catch { }
       persistConfigToDisk({ timerConfig: updated });
       try {
         channel.postMessage({ type: 'TIMER_SYNC', timerConfig: updated });
-      } catch {}
+      } catch { }
       dispatchToOverlay({ type: 'TIMER_SYNC', timerConfig: updated });
       return updated;
     });
@@ -1608,11 +1608,11 @@ function Dashboard() {
       const updated = { ...prev, running: nextState };
       try {
         localStorage.setItem('stream_troll_timer_config', JSON.stringify(updated));
-      } catch {}
+      } catch { }
       persistConfigToDisk({ timerConfig: updated });
       try {
         channel.postMessage({ type: 'TIMER_SYNC', timerConfig: updated });
-      } catch {}
+      } catch { }
       dispatchToOverlay({ type: 'TIMER_SYNC', timerConfig: updated });
       showToast(nextState ? '🟢 Extensible Timer reanudado y en cuenta regresiva' : '⏸️ Extensible Timer pausado');
       return updated;
@@ -1626,11 +1626,11 @@ function Dashboard() {
       const updated = { ...prev, currentSeconds: next };
       try {
         localStorage.setItem('stream_troll_timer_config', JSON.stringify(updated));
-      } catch {}
+      } catch { }
       persistConfigToDisk({ timerConfig: updated });
       try {
         channel.postMessage({ type: 'TIMER_SYNC', timerConfig: updated });
-      } catch {}
+      } catch { }
       dispatchToOverlay({ type: 'TIMER_SYNC', timerConfig: updated });
       showToast(seconds > 0 ? `⏱️ +${Math.round(seconds / 60)} min añadidos al Timer` : `⏱️ -${Math.round(Math.abs(seconds) / 60)} min restados del Timer`);
       return updated;
@@ -1643,11 +1643,11 @@ function Dashboard() {
       const updated = { ...prev, currentSeconds: resetVal, running: false };
       try {
         localStorage.setItem('stream_troll_timer_config', JSON.stringify(updated));
-      } catch {}
+      } catch { }
       persistConfigToDisk({ timerConfig: updated });
       try {
         channel.postMessage({ type: 'TIMER_SYNC', timerConfig: updated });
-      } catch {}
+      } catch { }
       dispatchToOverlay({ type: 'TIMER_SYNC', timerConfig: updated });
       showToast(`🔄 Timer reiniciado a ${formatTime(resetVal)}`);
       return updated;
@@ -1675,11 +1675,11 @@ function Dashboard() {
 
       try {
         localStorage.setItem('stream_troll_timer_config', JSON.stringify(payload));
-      } catch {}
+      } catch { }
       persistConfigToDisk({ timerConfig: payload });
       try {
         channel.postMessage({ type: 'TIMER_SYNC', timerConfig: payload });
-      } catch {}
+      } catch { }
       dispatchToOverlay({ type: 'TIMER_SYNC', timerConfig: payload });
 
       return payload;
@@ -1762,14 +1762,14 @@ function Dashboard() {
 
   // TRIGGER ENGINE: Maps gifts to triggers (with synonyms, combo tracking, and coin rules)
   const handleIncomingGift = useCallback((giftEvent) => {
-    const { 
-      user = 'Espectador', 
-      giftName = 'Regalo', 
-      giftId = null, 
-      diamondCount = 0, 
+    const {
+      user = 'Espectador',
+      giftName = 'Regalo',
+      giftId = null,
+      diamondCount = 0,
       repeatCount = 1,
       repeatEnd = true,
-      groupId = null 
+      groupId = null
     } = giftEvent;
 
     setGiftsReceivedCount((c) => c + 1);
@@ -2075,7 +2075,7 @@ function Dashboard() {
     setGiftMappings([...data]);
     try {
       localStorage.setItem('stream_troll_mappings', JSON.stringify(data));
-    } catch {}
+    } catch { }
     persistConfigToDisk({ giftMappings: data });
   };
 
@@ -2084,7 +2084,7 @@ function Dashboard() {
     setEventMappings([...data]);
     try {
       localStorage.setItem('stream_troll_event_mappings', JSON.stringify(data));
-    } catch {}
+    } catch { }
     persistConfigToDisk({ eventMappings: data });
   };
 
@@ -2115,11 +2115,11 @@ function Dashboard() {
     setGiftGraphics([...data]);
     try {
       localStorage.setItem('stream_troll_gift_graphics', JSON.stringify(data));
-    } catch {}
+    } catch { }
     persistConfigToDisk({ giftGraphics: data });
     try {
       channel.postMessage({ type: 'ENGINE_CONFIG', giftGraphics: data });
-    } catch {}
+    } catch { }
     dispatchToOverlay({ type: 'ENGINE_CONFIG', giftGraphics: data });
   };
 
@@ -2488,54 +2488,54 @@ function Dashboard() {
 
         {/* Flag Bar (Language Selector - Centered with Crisp Flag Badges) */}
         <div className="flags-bar">
-          <button 
-            className={`flag-btn ${lang === 'es' ? 'active' : ''}`} 
+          <button
+            className={`flag-btn ${lang === 'es' ? 'active' : ''}`}
             onClick={() => changeLanguage('es')}
             title="Español (ES)"
           >
             <svg width="26" height="18" viewBox="0 0 750 500" style={{ borderRadius: '3px', display: 'block', boxShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
-              <rect width="750" height="500" fill="#c60b1e"/>
-              <rect width="750" height="250" y="125" fill="#ffc400"/>
-              <circle cx="230" cy="250" r="45" fill="#c60b1e"/>
-              <circle cx="230" cy="250" r="30" fill="#ffc400"/>
+              <rect width="750" height="500" fill="#c60b1e" />
+              <rect width="750" height="250" y="125" fill="#ffc400" />
+              <circle cx="230" cy="250" r="45" fill="#c60b1e" />
+              <circle cx="230" cy="250" r="30" fill="#ffc400" />
             </svg>
           </button>
-          <button 
-            className={`flag-btn ${lang === 'en' ? 'active' : ''}`} 
+          <button
+            className={`flag-btn ${lang === 'en' ? 'active' : ''}`}
             onClick={() => changeLanguage('en')}
             title="English (US)"
           >
             <svg width="26" height="18" viewBox="0 0 24 16" style={{ borderRadius: '3px', display: 'block', boxShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
-              <rect width="24" height="16" fill="#b22234"/>
-              <rect y="1.23" width="24" height="1.23" fill="#fff"/>
-              <rect y="3.69" width="24" height="1.23" fill="#fff"/>
-              <rect y="6.15" width="24" height="1.23" fill="#fff"/>
-              <rect y="8.61" width="24" height="1.23" fill="#fff"/>
-              <rect y="11.07" width="24" height="1.23" fill="#fff"/>
-              <rect y="13.53" width="24" height="1.23" fill="#fff"/>
-              <rect width="10" height="8.6" fill="#3c3b6e"/>
+              <rect width="24" height="16" fill="#b22234" />
+              <rect y="1.23" width="24" height="1.23" fill="#fff" />
+              <rect y="3.69" width="24" height="1.23" fill="#fff" />
+              <rect y="6.15" width="24" height="1.23" fill="#fff" />
+              <rect y="8.61" width="24" height="1.23" fill="#fff" />
+              <rect y="11.07" width="24" height="1.23" fill="#fff" />
+              <rect y="13.53" width="24" height="1.23" fill="#fff" />
+              <rect width="10" height="8.6" fill="#3c3b6e" />
               <g fill="#fff">
-                <circle cx="2" cy="2" r="0.6"/>
-                <circle cx="5" cy="2" r="0.6"/>
-                <circle cx="8" cy="2" r="0.6"/>
-                <circle cx="3.5" cy="4.3" r="0.6"/>
-                <circle cx="6.5" cy="4.3" r="0.6"/>
-                <circle cx="2" cy="6.6" r="0.6"/>
-                <circle cx="5" cy="6.6" r="0.6"/>
-                <circle cx="8" cy="6.6" r="0.6"/>
+                <circle cx="2" cy="2" r="0.6" />
+                <circle cx="5" cy="2" r="0.6" />
+                <circle cx="8" cy="2" r="0.6" />
+                <circle cx="3.5" cy="4.3" r="0.6" />
+                <circle cx="6.5" cy="4.3" r="0.6" />
+                <circle cx="2" cy="6.6" r="0.6" />
+                <circle cx="5" cy="6.6" r="0.6" />
+                <circle cx="8" cy="6.6" r="0.6" />
               </g>
             </svg>
           </button>
-          <button 
-            className={`flag-btn ${lang === 'pt' ? 'active' : ''}`} 
+          <button
+            className={`flag-btn ${lang === 'pt' ? 'active' : ''}`}
             onClick={() => changeLanguage('pt')}
             title="Português (BR)"
           >
             <svg width="26" height="18" viewBox="0 0 24 16" style={{ borderRadius: '3px', display: 'block', boxShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
-              <rect width="24" height="16" fill="#009c3b"/>
-              <polygon points="12,1.5 22,8 12,14.5 2,8" fill="#ffdf00"/>
-              <circle cx="12" cy="8" r="3.6" fill="#002776"/>
-              <path d="M8.5,8 A3.6,3.6 0 0,0 15.5,8" stroke="#fff" strokeWidth="0.6" fill="none"/>
+              <rect width="24" height="16" fill="#009c3b" />
+              <polygon points="12,1.5 22,8 12,14.5 2,8" fill="#ffdf00" />
+              <circle cx="12" cy="8" r="3.6" fill="#002776" />
+              <path d="M8.5,8 A3.6,3.6 0 0,0 15.5,8" stroke="#fff" strokeWidth="0.6" fill="none" />
             </svg>
           </button>
         </div>
@@ -2571,7 +2571,7 @@ function Dashboard() {
         {/* Navigation Links */}
         <div className="nav-links">
           {/* 1. Dashboard */}
-          <div 
+          <div
             className={`nav-item-pill ${activeTab === 'dashboard' ? 'active' : ''}`}
             onClick={() => setActiveTab('dashboard')}
           >
@@ -2582,12 +2582,12 @@ function Dashboard() {
           </div>
 
           {/* 2. Shaders y Efectos (18) - Direct Access */}
-          <div 
+          <div
             className={`nav-item-pill ${activeTab === 'shaders' ? 'active' : ''}`}
             onClick={() => setActiveTab('shaders')}
             style={{
-              background: activeTab === 'shaders' 
-                ? 'linear-gradient(135deg, rgba(236, 72, 153, 0.25), rgba(139, 92, 246, 0.25))' 
+              background: activeTab === 'shaders'
+                ? 'linear-gradient(135deg, rgba(236, 72, 153, 0.25), rgba(139, 92, 246, 0.25))'
                 : 'transparent',
               border: '1.5px solid rgba(236, 72, 153, 0.4)'
             }}
@@ -2600,7 +2600,7 @@ function Dashboard() {
           </div>
 
           {/* 3. Mappings */}
-          <div 
+          <div
             className={`nav-item-pill ${activeTab === 'mappings' ? 'active' : ''}`}
             onClick={() => setActiveTab('mappings')}
           >
@@ -2615,12 +2615,12 @@ function Dashboard() {
           </div>
 
           {/* 4. Overlay & Fuentes (OBS & TikTok Studio) */}
-          <div 
+          <div
             className={`nav-item-pill ${activeTab === 'overlay' ? 'active' : ''}`}
             onClick={() => setActiveTab('overlay')}
             style={{
-              background: activeTab === 'overlay' 
-                ? 'linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(59, 130, 246, 0.25))' 
+              background: activeTab === 'overlay'
+                ? 'linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(59, 130, 246, 0.25))'
                 : 'transparent',
               border: '1.5px solid rgba(6, 182, 212, 0.4)'
             }}
@@ -2633,7 +2633,7 @@ function Dashboard() {
           </div>
 
           {/* 5. Gift Graphics (Animaciones en Pantalla) */}
-          <div 
+          <div
             className={`nav-item-pill ${activeTab === 'gift-graphics' ? 'active' : ''}`}
             onClick={() => setActiveTab('gift-graphics')}
           >
@@ -2645,7 +2645,7 @@ function Dashboard() {
           </div>
 
           {/* 6. Extensible Timer */}
-          <div 
+          <div
             className={`nav-item-pill ${activeTab === 'timer' ? 'active' : ''}`}
             onClick={() => setActiveTab('timer')}
           >
@@ -2657,7 +2657,7 @@ function Dashboard() {
           </div>
 
           {/* 7. Slider de Regalos (OBS Overlay) */}
-          <div 
+          <div
             className={`nav-item-pill ${activeTab === 'slider' ? 'active' : ''}`}
             onClick={() => setActiveTab('slider')}
           >
@@ -2669,7 +2669,7 @@ function Dashboard() {
           </div>
 
           {/* 8. Soundboard */}
-          <div 
+          <div
             className={`nav-item-pill ${activeTab === 'soundboard' ? 'active' : ''}`}
             onClick={() => setActiveTab('soundboard')}
           >
@@ -2680,7 +2680,7 @@ function Dashboard() {
           </div>
 
           {/* 9. Alertas & TTS */}
-          <div 
+          <div
             className={`nav-item-pill ${activeTab === 'alertas' ? 'active' : ''}`}
             onClick={() => setActiveTab('alertas')}
           >
@@ -2691,7 +2691,7 @@ function Dashboard() {
           </div>
 
           {/* 10. Tips & Donations */}
-          <div 
+          <div
             className={`nav-item-pill ${activeTab === 'tips' ? 'active' : ''}`}
             onClick={() => setActiveTab('tips')}
           >
@@ -2703,7 +2703,7 @@ function Dashboard() {
           </div>
 
           {/* 11. Planes (Free vs Ultimate) */}
-          <div 
+          <div
             className={`nav-item-pill ${activeTab === 'plans' ? 'active' : ''}`}
             onClick={() => setActiveTab('plans')}
             style={{ border: '1px solid rgba(234, 179, 8, 0.3)', background: activeTab === 'plans' ? 'rgba(234, 179, 8, 0.15)' : 'transparent', marginTop: '4px' }}
@@ -2716,7 +2716,7 @@ function Dashboard() {
           </div>
 
           {/* 12. Chatbot */}
-          <div 
+          <div
             className={`nav-item-pill ${activeTab === 'chatbot' ? 'active' : ''}`}
             onClick={() => setActiveTab('chatbot')}
           >
@@ -2727,7 +2727,7 @@ function Dashboard() {
           </div>
 
           {/* 13. Contests & Raffles */}
-          <div 
+          <div
             className={`nav-item-pill ${activeTab === 'contests' ? 'active' : ''}`}
             onClick={() => setActiveTab('contests')}
           >
@@ -2744,16 +2744,16 @@ function Dashboard() {
           <div>
             <div>BY: Logix_haze</div>
             <div style={{ fontSize: '0.7rem', color: '#475569' }}>v1.2.2 • ZENIC S.A.S</div>
-            <a 
-              href="#/legal" 
-              target="_blank" 
-              rel="noreferrer" 
+            <a
+              href="#/legal"
+              target="_blank"
+              rel="noreferrer"
               style={{ fontSize: '0.74rem', color: '#94a3b8', textDecoration: 'underline', display: 'inline-block', marginTop: '3px' }}
             >
               📜 Legal & Privacidad
             </a>
           </div>
-          <button 
+          <button
             className="btn-discord-support"
             onClick={() => window.open('https://discord.gg', '_blank')}
           >
@@ -2766,7 +2766,7 @@ function Dashboard() {
           MAIN CONTENT AREA
           ========================================================= */}
       <div className="main-content" style={{ overflowY: 'auto' }}>
-        
+
         {/* =========================================================
             TOP ACTION ROW / BANNERS
             ========================================================= */}
@@ -2801,14 +2801,14 @@ function Dashboard() {
 
           {/* 3. TikTok Connect Button */}
           <div className="tiktok-connect-box">
-            <button 
+            <button
               className={`btn-tiktok-connect ${isConnected ? 'connected' : ''}`}
               onClick={() => setShowTikTokModal(true)}
             >
               <span>{t.connectTiktok}</span>
               <span>→</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.5 6.27 6.27 0 0 0 1.87-4.49V8.69a8.16 8.16 0 0 0 4.9 1.62V6.86a4.85 4.85 0 0 1-1-.17z"/>
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.5 6.27 6.27 0 0 0 1.87-4.49V8.69a8.16 8.16 0 0 0 4.9 1.62V6.86a4.85 4.85 0 0 1-1-.17z" />
               </svg>
             </button>
             <div className="tiktok-status-subtext">
@@ -2830,7 +2830,7 @@ function Dashboard() {
               gap: '1rem',
               marginBottom: '1.5rem'
             }}>
-              <div 
+              <div
                 onClick={() => setActiveTab('shaders')}
                 style={{
                   background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.18), rgba(139, 92, 246, 0.22))',
@@ -2857,7 +2857,7 @@ function Dashboard() {
                 </div>
               </div>
 
-              <div 
+              <div
                 onClick={() => setActiveTab('overlay')}
                 style={{
                   background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.18), rgba(59, 130, 246, 0.22))',
@@ -2905,13 +2905,13 @@ function Dashboard() {
                 {screens.map((screen) => {
                   const isSelected = selectedScreenId === screen.id;
                   return (
-                    <div 
+                    <div
                       key={screen.id}
                       className={isSelected ? "screen-card-active" : "screen-card-inactive"}
                       onClick={() => {
                         setSelectedScreenId(screen.id);
                         if (ipcRendererRef.current) {
-                          ipcRendererRef.current.invoke('system:select-screen', screen.id).catch(() => {});
+                          ipcRendererRef.current.invoke('system:select-screen', screen.id).catch(() => { });
                         }
                         showToast(`🖥️ Pantalla seleccionada: ${screen.name}`);
                       }}
@@ -2937,10 +2937,10 @@ function Dashboard() {
                       {graphicsEngine ? (t.on || 'ON') : (t.off || 'OFF')}
                     </span>
                     <label className="switch">
-                      <input 
-                        type="checkbox" 
-                        checked={graphicsEngine} 
-                        onChange={(e) => setGraphicsEngine(e.target.checked)} 
+                      <input
+                        type="checkbox"
+                        checked={graphicsEngine}
+                        onChange={(e) => setGraphicsEngine(e.target.checked)}
                       />
                       <span className="slider"></span>
                     </label>
@@ -2957,10 +2957,10 @@ function Dashboard() {
                       {ultraPerformanceMode ? '144+ FPS' : (t.off || 'OFF')}
                     </span>
                     <label className="switch">
-                      <input 
-                        type="checkbox" 
-                        checked={ultraPerformanceMode} 
-                        onChange={(e) => handleToggleUltraPerf(e.target.checked)} 
+                      <input
+                        type="checkbox"
+                        checked={ultraPerformanceMode}
+                        onChange={(e) => handleToggleUltraPerf(e.target.checked)}
                       />
                       <span className="slider"></span>
                     </label>
@@ -2977,10 +2977,10 @@ function Dashboard() {
                       {desktopOverlayActive ? (t.on || 'ON') : 'SOLO OBS'}
                     </span>
                     <label className="switch">
-                      <input 
-                        type="checkbox" 
-                        checked={desktopOverlayActive} 
-                        onChange={(e) => handleToggleDesktopOverlay(e.target.checked)} 
+                      <input
+                        type="checkbox"
+                        checked={desktopOverlayActive}
+                        onChange={(e) => handleToggleDesktopOverlay(e.target.checked)}
                       />
                       <span className="slider"></span>
                     </label>
@@ -2997,10 +2997,10 @@ function Dashboard() {
                       {alignmentGrid ? (t.on || 'ON') : (t.off || 'OFF')}
                     </span>
                     <label className="switch">
-                      <input 
-                        type="checkbox" 
-                        checked={alignmentGrid} 
-                        onChange={(e) => setAlignmentGrid(e.target.checked)} 
+                      <input
+                        type="checkbox"
+                        checked={alignmentGrid}
+                        onChange={(e) => setAlignmentGrid(e.target.checked)}
                       />
                       <span className="slider"></span>
                     </label>
@@ -3083,28 +3083,28 @@ function Dashboard() {
                 </span>
               </div>
               <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
-                <button 
+                <button
                   className="btn btn-secondary"
                   title="Simula 'Rose' (nombre en inglés)"
                   onClick={() => handleIncomingGift({ user: 'Fan_USA', giftName: 'Rose', diamondCount: 1, repeatCount: 1, repeatEnd: true })}
                 >
                   🌹 Rose (EN)
                 </button>
-                <button 
+                <button
                   className="btn btn-secondary"
                   title="Simula 'Rosa' (sinónimo en español para probar matching)"
                   onClick={() => handleIncomingGift({ user: 'Fan_Latino', giftName: 'Rosa', diamondCount: 1, repeatCount: 1, repeatEnd: true })}
                 >
                   🌹 Rosa (ES - Sinónimo)
                 </button>
-                <button 
+                <button
                   className="btn btn-secondary"
                   title="Simula 'Panda' (199 monedas)"
                   onClick={() => handleIncomingGift({ user: 'PandaBoss', giftName: 'Panda', diamondCount: 199, repeatCount: 1, repeatEnd: true })}
                 >
                   🐼 Panda (199 🪙)
                 </button>
-                <button 
+                <button
                   className="btn"
                   style={{ background: 'linear-gradient(135deg, #f59e0b, #ef4444)', color: '#fff' }}
                   title="Simula 'Lion' (en inglés, probando match con regla 'León')"
@@ -3112,7 +3112,7 @@ function Dashboard() {
                 >
                   🦁 Lion (EN ➔ León)
                 </button>
-                <button 
+                <button
                   className="btn"
                   style={{ background: 'linear-gradient(135deg, #ec4899, #8b5cf6)', color: '#fff' }}
                   title="Simula una racha de combo de 20 rosas consecutivas"
@@ -3133,21 +3133,21 @@ function Dashboard() {
                 >
                   💥 Combo Rose x20 (Streak)
                 </button>
-                <button 
+                <button
                   className="btn"
                   style={{ background: 'linear-gradient(135deg, #3b82f6, #6366f1)', color: '#fff' }}
                   onClick={() => handleIncomingEvent({ eventType: 'follow', user: 'NuevoStreamerFan' })}
                 >
                   👤 Follow
                 </button>
-                <button 
+                <button
                   className="btn"
                   style={{ background: 'linear-gradient(135deg, #10b981, #059669)', color: '#fff' }}
                   onClick={() => handleIncomingEvent({ eventType: 'share', user: 'ComunidadGamer' })}
                 >
                   🔄 Share
                 </button>
-                <button 
+                <button
                   className="btn"
                   style={{ background: 'linear-gradient(135deg, #ef4444, #f43f5e)', color: '#fff' }}
                   onClick={() => handleIncomingEvent({ eventType: 'likes', user: 'Espectadores', likeCount: 100 })}
@@ -3167,7 +3167,7 @@ function Dashboard() {
                   {activityFeed.slice(0, 5).map((item) => (
                     <div key={item.id} className="live-feed-item">
                       <div>
-                        <strong style={{ color: '#60a5fa' }}>{item.time}</strong> — 
+                        <strong style={{ color: '#60a5fa' }}>{item.time}</strong> —
                         <span style={{ color: '#fbbf24', marginLeft: '0.4rem' }}>{item.user}</span> envió{' '}
                         <strong>{item.giftName}</strong> {item.coins > 0 && `(${item.coins} 🪙)`}
                       </div>
@@ -3206,7 +3206,7 @@ function Dashboard() {
 
             {/* Navigation Pills: Regalos vs Eventos (Image 2) */}
             <div className="mappings-nav-pills">
-              <button 
+              <button
                 className={`mapping-tab-btn ${mappingSubTab === 'gifts' ? 'active' : ''}`}
                 onClick={() => setMappingSubTab('gifts')}
               >
@@ -3215,7 +3215,7 @@ function Dashboard() {
                 <span className="mapping-count-pill">{giftMappings.length}</span>
               </button>
 
-              <button 
+              <button
                 className={`mapping-tab-btn ${mappingSubTab === 'events' ? 'active' : ''}`}
                 onClick={() => setMappingSubTab('events')}
               >
@@ -3228,7 +3228,7 @@ function Dashboard() {
             {/* Sub-header with text, combo controller, and + Add Mapping buttons */}
             <div className="mappings-sub-header">
               <div className="mappings-sub-text">
-                {mappingSubTab === 'gifts' 
+                {mappingSubTab === 'gifts'
                   ? (t.giftsSubText || 'Configura qué efectos se activan cuando recibes regalos específicos o por umbral de monedas')
                   : (t.eventsSubText || 'Configura qué efectos se activan con eventos de TikTok Live (Follow, Share, Likes, etc.)')}
               </div>
@@ -3237,7 +3237,7 @@ function Dashboard() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.05)', padding: '5px 10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
                     <span style={{ fontSize: '0.76rem', color: '#94a3b8' }}>{t.combosLabel || 'Combos:'}</span>
-                    <select 
+                    <select
                       value={comboMode}
                       onChange={(e) => handleSetComboMode(e.target.value)}
                       style={{ background: 'transparent', border: 'none', color: '#fbbf24', fontSize: '0.78rem', fontWeight: 'bold', cursor: 'pointer', outline: 'none' }}
@@ -3248,7 +3248,7 @@ function Dashboard() {
                     </select>
                   </div>
 
-                  <button 
+                  <button
                     className="btn btn-secondary"
                     style={{ padding: '0.5rem 0.85rem', fontSize: '0.82rem', display: 'flex', alignItems: 'center', gap: '5px' }}
                     onClick={() => {
@@ -3261,7 +3261,7 @@ function Dashboard() {
                     <span>{t.byCoins || '+ Por Monedas'}</span>
                   </button>
 
-                  <button 
+                  <button
                     className="btn-add-mapping"
                     onClick={() => setShowGiftModal(true)}
                   >
@@ -3270,7 +3270,7 @@ function Dashboard() {
                   </button>
                 </div>
               ) : (
-                <button 
+                <button
                   className="btn-add-mapping"
                   onClick={() => setShowEventModal(true)}
                 >
@@ -3656,8 +3656,8 @@ function Dashboard() {
                     </svg>
                     <div className="mappings-empty-title">No mappings yet</div>
                     <div className="mappings-empty-sub">Create your first gift-to-effect mapping</div>
-                    <button 
-                      className="btn-add-mapping" 
+                    <button
+                      className="btn-add-mapping"
                       style={{ marginTop: '1.25rem' }}
                       onClick={() => setShowGiftModal(true)}
                     >
@@ -3667,8 +3667,8 @@ function Dashboard() {
                 ) : (
                   <div>
                     {giftMappings.map((m) => (
-                      <div 
-                        key={m.id} 
+                      <div
+                        key={m.id}
                         className="mapping-card-item"
                         style={editingMappingId === m.id ? {
                           borderColor: '#38bdf8',
@@ -3822,14 +3822,14 @@ function Dashboard() {
 
                             <div className="mapping-item-controls">
                               <label className="switch" title="Activar/Desactivar">
-                                <input 
-                                  type="checkbox" 
-                                  checked={m.enabled} 
-                                  onChange={(e) => toggleGiftMapping(m.id, e.target.checked)} 
+                                <input
+                                  type="checkbox"
+                                  checked={m.enabled}
+                                  onChange={(e) => toggleGiftMapping(m.id, e.target.checked)}
                                 />
                                 <span className="slider"></span>
                               </label>
-                              <button 
+                              <button
                                 className="btn btn-secondary"
                                 style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}
                                 onClick={() => {
@@ -3839,7 +3839,7 @@ function Dashboard() {
                               >
                                 👁️ Probar
                               </button>
-                              <button 
+                              <button
                                 className="btn btn-danger"
                                 style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}
                                 onClick={() => deleteGiftMapping(m.id)}
@@ -3869,8 +3869,8 @@ function Dashboard() {
                     </svg>
                     <div className="mappings-empty-title">No mappings yet</div>
                     <div className="mappings-empty-sub">Create your first event-to-effect mapping</div>
-                    <button 
-                      className="btn-add-mapping" 
+                    <button
+                      className="btn-add-mapping"
                       style={{ marginTop: '1.25rem' }}
                       onClick={() => setShowEventModal(true)}
                     >
@@ -3902,14 +3902,14 @@ function Dashboard() {
 
                         <div className="mapping-item-controls">
                           <label className="switch" title="Activar/Desactivar">
-                            <input 
-                              type="checkbox" 
-                              checked={m.enabled} 
-                              onChange={(e) => toggleEventMapping(m.id, e.target.checked)} 
+                            <input
+                              type="checkbox"
+                              checked={m.enabled}
+                              onChange={(e) => toggleEventMapping(m.id, e.target.checked)}
                             />
                             <span className="slider"></span>
                           </label>
-                          <button 
+                          <button
                             className="btn btn-secondary"
                             style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}
                             onClick={() => {
@@ -3919,7 +3919,7 @@ function Dashboard() {
                           >
                             👁️ Probar
                           </button>
-                          <button 
+                          <button
                             className="btn btn-danger"
                             style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}
                             onClick={() => deleteEventMapping(m.id)}
@@ -4092,12 +4092,12 @@ function Dashboard() {
             ) : (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: '1.25rem' }}>
                 {giftGraphics.map((g) => {
-                  const animLabel = 
+                  const animLabel =
                     g.animationType === 'rain' ? '🌧️ Lluvia Cayendo' :
-                    g.animationType === 'epic' ? '🦁 Rugido Épico 3D' :
-                    g.animationType === 'burst' ? '💥 Estallido Central' :
-                    g.animationType === 'rocket' ? '🚀 Despegue Vertical' :
-                    g.animationType === 'bounce' ? '🪂 Flotante / Rebote' : '✨ Animación';
+                      g.animationType === 'epic' ? '🦁 Rugido Épico 3D' :
+                        g.animationType === 'burst' ? '💥 Estallido Central' :
+                          g.animationType === 'rocket' ? '🚀 Despegue Vertical' :
+                            g.animationType === 'bounce' ? '🪂 Flotante / Rebote' : '✨ Animación';
 
                   return (
                     <div
@@ -4636,7 +4636,7 @@ function Dashboard() {
 
             {/* GRID OF CONFIGURATION SECTIONS */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-              
+
               {/* CARD 1: REGLA MAESTRA DE MONEDAS A TIEMPO (REQUERIMIENTO DEL USUARIO) */}
               <div className="feature-card" style={{ border: '1.5px solid rgba(234, 179, 8, 0.4)', background: 'linear-gradient(135deg, rgba(234, 179, 8, 0.04), transparent)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1rem' }}>
@@ -5394,7 +5394,10 @@ function Dashboard() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem', marginBottom: '1.25rem' }}>
                 <div style={{ background: 'rgba(0,0,0,0.4)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)' }}>
                   <div style={{ fontWeight: 800, color: '#38bdf8', fontSize: '0.9rem', marginBottom: '4px' }}>
-                    1. Efectos, Shaders y Trolls (1920x1080)
+                    1. Efectos, Shaders y Trolls (Pantalla Completa)
+                  </div>
+                  <div style={{ fontSize: '0.74rem', color: '#94a3b8', marginBottom: '6px' }}>
+                    📱 Vertical (TikTok Móvil): <code>1080x1920</code> | 🖥️ Horizontal: <code>1920x1080</code>
                   </div>
                   <code style={{ display: 'block', fontSize: '0.78rem', color: '#38bdf8', background: 'rgba(0,0,0,0.6)', padding: '6px 8px', borderRadius: '6px', marginBottom: '8px', wordBreak: 'break-all', fontWeight: 700 }}>
                     https://stream-troll.vercel.app/overlay
@@ -5450,8 +5453,13 @@ function Dashboard() {
                 </div>
               </div>
 
-              <div style={{ fontSize: '0.82rem', color: '#cbd5e1', background: 'rgba(0,0,0,0.3)', padding: '10px 14px', borderRadius: '8px', borderLeft: '3px solid #06b6d4' }}>
-                💡 <strong>Solución al error "Introduce una URL válida":</strong> TikTok Live Studio bloquea enlaces locales que comiencen por <code>http://127.0.0.1</code>. Al usar las URLs oficiales con <code>https://stream-troll.vercel.app/...</code> el botón <strong>"Añadir fuente"</strong> se activará inmediatamente en verde.
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.82rem', color: '#cbd5e1', background: 'rgba(0,0,0,0.3)', padding: '12px 14px', borderRadius: '8px', borderLeft: '3px solid #06b6d4' }}>
+                <div>
+                  💡 <strong>Solución al error "Introduce una URL válida":</strong> TikTok Live Studio bloquea enlaces que comiencen por <code>http://127.0.0.1</code>. Al usar las URLs oficiales <code>https://stream-troll.vercel.app/...</code> el botón <strong>"Añadir fuente"</strong> se activará inmediatamente en verde.
+                </div>
+                <div>
+                  📐 <strong>¿El efecto solo se ve en mitad de la pantalla?</strong> En TikTok Live Studio, haz clic derecho sobre la fuente ➔ <strong>Transformar</strong> ➔ <strong>"Ajustar a la pantalla"</strong> (o presiona <code>Ctrl + F</code>). Si transmites en directo vertical para móviles, activa <strong>"Resolución personalizada"</strong> y escribe <code>1080 x 1920</code> para que cubra el 100% de la pantalla sin cortes.
+                </div>
               </div>
             </div>
 
@@ -5637,7 +5645,7 @@ function Dashboard() {
                 <span style={{ fontSize: '0.8rem', color: '#cbd5e1' }}>
                   💡 ¿Prefieres activar con <strong>cualquier regalo</strong> según sus monedas?
                 </span>
-                <button 
+                <button
                   className="btn btn-secondary"
                   style={{ padding: '0.35rem 0.75rem', fontSize: '0.78rem' }}
                   onClick={() => {
@@ -5651,7 +5659,7 @@ function Dashboard() {
               </div>
 
               <label className="gift-search-label">SEARCH BY NAME (ES/EN):</label>
-              <input 
+              <input
                 type="text"
                 className="gift-search-input"
                 placeholder="Busca por nombre (ej: Rose, Rosa, León, Helado, Dona...)"
@@ -5664,7 +5672,7 @@ function Dashboard() {
             <div className="gift-filters-row">
               <div>
                 <label className="gift-search-label">FILTER BY COINS:</label>
-                <select 
+                <select
                   className="gift-select-dropdown"
                   value={giftCoinFilter}
                   onChange={(e) => setGiftCoinFilter(e.target.value)}
@@ -5680,7 +5688,7 @@ function Dashboard() {
 
               <div>
                 <label className="gift-search-label">SORT BY:</label>
-                <select 
+                <select
                   className="gift-select-dropdown"
                   value={giftSortBy}
                   onChange={(e) => setGiftSortBy(e.target.value)}
@@ -5694,7 +5702,7 @@ function Dashboard() {
 
             <div className="gift-catalog-grid">
               {filteredGifts.map((gift) => (
-                <button 
+                <button
                   key={gift.id}
                   className="gift-card-btn"
                   onClick={() => {
@@ -5751,7 +5759,7 @@ function Dashboard() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {TIKTOK_EVENTS_CATALOG.map((evt) => (
-                <div 
+                <div
                   key={evt.id}
                   className="feature-card"
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.9rem 1.2rem', cursor: 'pointer', transition: 'all 0.2s' }}
@@ -5797,18 +5805,18 @@ function Dashboard() {
                 Asignar Efecto a: <span style={{ color: '#fbbf24' }}>{configuringTrigger.item.name}</span>
               </h3>
               <p style={{ color: '#94a3b8', fontSize: '0.82rem' }}>
-                {configuringTrigger.type === 'gift' 
-                  ? `Valor del regalo: ${configuringTrigger.item.coins} Monedas de TikTok (Soporta sinónimos ES/EN)` 
+                {configuringTrigger.type === 'gift'
+                  ? `Valor del regalo: ${configuringTrigger.item.coins} Monedas de TikTok (Soporta sinónimos ES/EN)`
                   : configuringTrigger.type === 'coins'
-                  ? 'Cualquier regalo recibido que supere o iguale el umbral de monedas'
-                  : 'Evento de directo en vivo'}
+                    ? 'Cualquier regalo recibido que supere o iguale el umbral de monedas'
+                    : 'Evento de directo en vivo'}
               </p>
             </div>
 
             {configuringTrigger.type === 'coins' && (
               <div className="input-group">
                 <label>Umbral de Monedas Mínimas (≥ X 🪙)</label>
-                <input 
+                <input
                   type="number"
                   min="1"
                   className="input-field"
@@ -5827,7 +5835,7 @@ function Dashboard() {
                 <span>🏷️ Texto en el Slider de OBS:</span>
                 <span style={{ fontSize: '0.72rem', color: '#fbbf24' }}>(Meme / Acción)</span>
               </label>
-              <input 
+              <input
                 type="text"
                 className="input-field"
                 value={selectedCustomLabel}
@@ -5842,7 +5850,7 @@ function Dashboard() {
 
             <div className="input-group">
               <label>Efecto Visual (Shader)</label>
-              <select 
+              <select
                 className="input-field"
                 value={selectedEffect}
                 onChange={(e) => setSelectedEffect(e.target.value)}
@@ -5855,7 +5863,7 @@ function Dashboard() {
 
             <div className="input-group">
               <label>Duración del Efecto</label>
-              <select 
+              <select
                 className="input-field"
                 value={selectedDuration}
                 onChange={(e) => setSelectedDuration(Number(e.target.value))}
@@ -5870,8 +5878,8 @@ function Dashboard() {
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1.5rem' }}>
-              <input 
-                type="checkbox" 
+              <input
+                type="checkbox"
                 id="cfg-tts"
                 checked={selectedTts}
                 onChange={(e) => setSelectedTts(e.target.checked)}
@@ -5883,15 +5891,15 @@ function Dashboard() {
             </div>
 
             <div style={{ display: 'flex', gap: '0.8rem' }}>
-              <button 
-                className="btn btn-secondary" 
+              <button
+                className="btn btn-secondary"
                 style={{ flex: 1 }}
                 onClick={() => setConfiguringTrigger(null)}
               >
                 Cancelar
               </button>
-              <button 
-                className="btn btn-success" 
+              <button
+                className="btn btn-success"
                 style={{ flex: 1.5, fontWeight: 'bold' }}
                 onClick={saveNewMapping}
               >
@@ -5921,9 +5929,9 @@ function Dashboard() {
             <form onSubmit={loginTrollMe}>
               <div className="input-group">
                 <label>Correo Electrónico</label>
-                <input 
-                  type="email" 
-                  className="input-field" 
+                <input
+                  type="email"
+                  className="input-field"
                   placeholder="ejemplo@streamer.com"
                   value={trollLoginEmail}
                   onChange={(e) => setTrollLoginEmail(e.target.value)}
@@ -5933,9 +5941,9 @@ function Dashboard() {
 
               <div className="input-group">
                 <label>Contraseña</label>
-                <input 
-                  type="password" 
-                  className="input-field" 
+                <input
+                  type="password"
+                  className="input-field"
                   placeholder="••••••••"
                   value={trollLoginPass}
                   onChange={(e) => setTrollLoginPass(e.target.value)}
@@ -5943,17 +5951,17 @@ function Dashboard() {
                 />
               </div>
 
-              <button 
-                type="submit" 
-                className="btn" 
+              <button
+                type="submit"
+                className="btn"
                 style={{ width: '100%', padding: '0.85rem', fontWeight: 'bold', background: 'linear-gradient(135deg, #06b6d4, #ec4899)', marginBottom: '1rem' }}
               >
                 🚀 Iniciar Sesión en Stream Troll
               </button>
 
-              <button 
-                type="button" 
-                className="btn btn-secondary" 
+              <button
+                type="button"
+                className="btn btn-secondary"
                 style={{ width: '100%', padding: '0.75rem', marginBottom: '0.5rem', fontSize: '0.85rem' }}
                 onClick={() => {
                   setTrollLoginEmail('karenbmarin30@gmail.com');
@@ -5963,9 +5971,9 @@ function Dashboard() {
                 👑 Acceso Rápido Streamer (karenbmarin30 - ULTIMATE)
               </button>
 
-              <button 
-                type="button" 
-                className="btn btn-secondary" 
+              <button
+                type="button"
+                className="btn btn-secondary"
                 style={{ width: '100%', padding: '0.75rem', marginBottom: '1.5rem', fontSize: '0.85rem' }}
                 onClick={() => {
                   setTrollLoginEmail('miguerodriguez1008@gmail.com');
@@ -6267,7 +6275,7 @@ function Dashboard() {
                 boxShadow: '0 0 15px rgba(6, 182, 212, 0.4)'
               }}>
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff">
-                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.5 6.27 6.27 0 0 0 1.87-4.49V8.69a8.16 8.16 0 0 0 4.9 1.62V6.86a4.85 4.85 0 0 1-1-.17z"/>
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.5 6.27 6.27 0 0 0 1.87-4.49V8.69a8.16 8.16 0 0 0 4.9 1.62V6.86a4.85 4.85 0 0 1-1-.17z" />
                 </svg>
               </div>
               <h3 style={{ color: '#fff', fontSize: '1.35rem' }}>{t.tiktokModalTitle}</h3>
@@ -6280,8 +6288,8 @@ function Dashboard() {
               <div style={{ fontSize: '0.85rem', color: '#67e8f9', marginBottom: '0.75rem', fontWeight: 'bold' }}>
                 {t.tiktokOfficialTitle || '🌐 Conexión oficial de Streamer'}
               </div>
-              <button 
-                className="btn" 
+              <button
+                className="btn"
                 style={{ width: '100%', background: 'linear-gradient(135deg, #06b6d4, #ec4899)', fontWeight: 'bold', padding: '0.85rem' }}
                 onClick={openOfficialTikTokLogin}
               >
@@ -6297,15 +6305,15 @@ function Dashboard() {
                 {t.tiktokLiveLabel || '🎯 Conexión a Directo de TikTok en Vivo'}
               </label>
               <div style={{ display: 'flex', gap: '0.6rem' }}>
-                <input 
-                  type="text" 
-                  className="input-field" 
-                  placeholder="@tu_usuario_de_tiktok" 
+                <input
+                  type="text"
+                  className="input-field"
+                  placeholder="@tu_usuario_de_tiktok"
                   value={tiktokUser}
                   onChange={(e) => setTiktokUser(e.target.value)}
                   style={{ marginBottom: 0, flex: 1 }}
                 />
-                <button 
+                <button
                   className="btn"
                   style={{ background: isConnected ? '#ef4444' : '#10b981', minWidth: '120px' }}
                   onClick={isConnected ? disconnectTikTok : connectTikTok}
@@ -6386,8 +6394,8 @@ function Dashboard() {
               </div>
             </div>
 
-            <button 
-              className="btn btn-success" 
+            <button
+              className="btn btn-success"
               style={{ width: '100%', marginTop: '1.5rem', padding: '0.85rem', fontWeight: 'bold' }}
               onClick={() => setShowStreamerGuideModal(false)}
             >

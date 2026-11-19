@@ -1,17 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import regalosData from './regalos.json';
 
 const channel = new BroadcastChannel('stream_troll_channel');
-
-const REGALOS_IMAGE_MAP = {};
-(regalosData?.gifts || []).forEach((g) => {
-  if (g.name && g.image) {
-    const raw = String(g.name).toLowerCase().trim();
-    REGALOS_IMAGE_MAP[raw] = g.image;
-    const norm = raw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '');
-    if (norm) REGALOS_IMAGE_MAP[norm] = g.image;
-  }
-});
 
 const EFFECT_COLORS = {
   drunk: { border: '#ec4899', badgeBg: 'rgba(236, 72, 153, 0.25)', text: '#fbcfe8', label: 'DRUNK' },
@@ -31,6 +20,7 @@ const EFFECT_COLORS = {
 
 const OFFICIAL_TIKTOK_CDN = {
   rose: 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/eba3a9bb85c33e017f3648eaf88d7189~tplv-obj.webp',
+  rosa: 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/eba3a9bb85c33e017f3648eaf88d7189~tplv-obj.webp',
   5655: 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/eba3a9bb85c33e017f3648eaf88d7189~tplv-obj.webp',
   'ice-cream': 'https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/a254cce3-3662-4c0e-84d7-d06bf3af3e2e.png~tplv-obj.png',
   5827: 'https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/a254cce3-3662-4c0e-84d7-d06bf3af3e2e.png~tplv-obj.png',
@@ -52,55 +42,52 @@ const OFFICIAL_TIKTOK_CDN = {
   lion: 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/4fb89af2082a290b37d704e20f4fe729~tplv-obj.webp',
   leon: 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/4fb89af2082a290b37d704e20f4fe729~tplv-obj.webp',
   6427: 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/4fb89af2082a290b37d704e20f4fe729~tplv-obj.webp',
-  galaxy: 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/8f471afbcebfda3841a6cc515e381f58~tplv-obj.webp',
-  6093: 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/8f471afbcebfda3841a6cc515e381f58~tplv-obj.webp',
-  universe: 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/8f471afbcebfda3841a6cc515e381f58~tplv-obj.webp',
-  5566: 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/8f471afbcebfda3841a6cc515e381f58~tplv-obj.webp'
-};
-
-const emojiToHex = (emoji) => {
-  if (!emoji) return '1f381';
-  for (const char of Array.from(String(emoji).trim())) {
-    const cp = char.codePointAt(0);
-    if (cp && cp !== 0xfe0f && cp !== 0x200d) return cp.toString(16);
-  }
-  return '1f381';
+  galaxy: 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/79a02148079526539f7599150da9fd28.png~tplv-obj.webp',
+  galaxia: 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/79a02148079526539f7599150da9fd28.png~tplv-obj.webp',
+  6093: 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/79a02148079526539f7599150da9fd28.png~tplv-obj.webp',
+  universe: 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/b13105782e8bf8fbefaa83b7af413cee~tplv-obj.webp',
+  universo: 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/b13105782e8bf8fbefaa83b7af413cee~tplv-obj.webp',
+  5566: 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/b13105782e8bf8fbefaa83b7af413cee~tplv-obj.webp',
+  'money-gun': 'https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/e0589e95a2b41970f0f30f6202f5fce6~tplv-obj.webp',
+  rocket: 'https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/e4037b9a67b7ffcdeeed11cbaeb26489.png~tplv-obj.webp',
+  heart: 'https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/composed.b1bb32764916a49baa560ac2a6eff55d.png~tplv-resize:258:258.webp',
+  corazon: 'https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/composed.b1bb32764916a49baa560ac2a6eff55d.png~tplv-resize:258:258.webp'
 };
 
 function SliderGiftImage({ item, size = 32 }) {
+  const [hasError, setHasError] = useState(false);
+
   const rawName = String(item?.giftName || '').toLowerCase().trim();
-  const normName = rawName
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]/g, '');
+  const normName = rawName.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '');
 
-  const candidates = [
-    item?.giftImage,
-    item?.imageUrl,
-    REGALOS_IMAGE_MAP[rawName],
-    REGALOS_IMAGE_MAP[normName],
-    item?.giftId ? OFFICIAL_TIKTOK_CDN[item.giftId] : null,
-    OFFICIAL_TIKTOK_CDN[normName],
-    `https://fonts.gstatic.com/s/e/notoemoji/latest/${emojiToHex(item?.giftIcon || '🎁')}/512.webp`,
-    `https://emojicdn.elk.sh/${encodeURIComponent(item?.giftIcon || '🎁')}?style=apple`
-  ].filter(Boolean);
+  const src =
+    !hasError &&
+    (item?.giftImage ||
+      item?.imageUrl ||
+      (item?.giftId ? OFFICIAL_TIKTOK_CDN[item.giftId] : null) ||
+      OFFICIAL_TIKTOK_CDN[rawName] ||
+      OFFICIAL_TIKTOK_CDN[normName]);
 
-  const [idx, setIdx] = useState(0);
-
-  if (idx >= candidates.length) {
-    return <span style={{ fontSize: `${size * 0.85}px`, lineHeight: 1 }}>{item?.giftIcon || '🎁'}</span>;
+  if (!src) {
+    return (
+      <span style={{ fontSize: `${Math.round(size * 0.75)}px`, lineHeight: 1, display: 'inline-block' }}>
+        {item?.giftIcon || '🎁'}
+      </span>
+    );
   }
 
   return (
     <img
-      src={candidates[idx]}
+      src={src}
       alt={item?.giftName || 'Gift'}
-      onError={() => setIdx((i) => i + 1)}
+      loading="lazy"
+      decoding="async"
+      onError={() => setHasError(true)}
       style={{
         width: `${size}px`,
         height: `${size}px`,
         objectFit: 'contain',
-        filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.6))',
+        filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))',
         display: 'block',
         flexShrink: 0
       }}
@@ -226,16 +213,13 @@ export default function GiftSliderOverlay() {
       } catch {}
     }
 
-    // 3. Server-Sent Events (SSE) from StreamTroll server
+    // 3. Server-Sent Events (SSE) from StreamTroll server (only if local server exists)
     const sseSources = [];
-    const endpoints = new Set(['http://127.0.0.1:18923/events']);
-    if (window.location.protocol.startsWith('http') && !window.location.origin.includes('18923')) {
-      endpoints.add(`${window.location.origin}/events`);
-    }
+    const isVercel = typeof window !== 'undefined' && window.location.hostname.includes('vercel.app');
 
-    endpoints.forEach((url) => {
+    if (!isVercel) {
       try {
-        const es = new EventSource(url);
+        const es = new EventSource('http://127.0.0.1:18923/events');
         es.onmessage = (e) => {
           try {
             const parsed = JSON.parse(e.data);
@@ -244,16 +228,19 @@ export default function GiftSliderOverlay() {
         };
         sseSources.push(es);
       } catch {}
-    });
+    }
 
-    // 3.5. WebSocket connection to local StreamTroll app (ws://127.0.0.1:18923)
+    // 3.5. WebSocket connection to local StreamTroll app with limited retries (prevents CEF memory buildup)
     let ws = null;
     let wsRetry = null;
     let isUnmounted = false;
+    let wsAttempts = 0;
+
     function connectWs() {
-      if (isUnmounted) return;
+      if (isUnmounted || wsAttempts >= 4) return;
       try {
         ws = new WebSocket('ws://127.0.0.1:18923');
+        ws.onopen = () => { wsAttempts = 0; };
         ws.onmessage = (event) => {
           try {
             const data = JSON.parse(event.data);
@@ -261,13 +248,19 @@ export default function GiftSliderOverlay() {
           } catch {}
         };
         ws.onclose = () => {
-          if (!isUnmounted) wsRetry = setTimeout(connectWs, 3000);
+          wsAttempts++;
+          if (!isUnmounted && wsAttempts < 4) {
+            wsRetry = setTimeout(connectWs, 8000);
+          }
         };
         ws.onerror = () => {
           try { ws.close(); } catch {}
         };
       } catch {
-        if (!isUnmounted) wsRetry = setTimeout(connectWs, 3000);
+        wsAttempts++;
+        if (!isUnmounted && wsAttempts < 4) {
+          wsRetry = setTimeout(connectWs, 8000);
+        }
       }
     }
     connectWs();

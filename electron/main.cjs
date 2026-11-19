@@ -680,12 +680,13 @@ function createWindow() {
 
   mainWindow.on('closed', () => {
     mainWindow = null;
-    if (desktopOverlayEnabled && desktopOverlayWindow && !desktopOverlayWindow.isDestroyed()) {
+    if (desktopOverlayWindow && !desktopOverlayWindow.isDestroyed()) {
       try { desktopOverlayWindow.close(); } catch {}
     }
     if (loginWindow && !loginWindow.isDestroyed()) {
       try { loginWindow.close(); } catch {}
     }
+    app.quit();
   });
 }
 

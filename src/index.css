@@ -2076,17 +2076,27 @@ input:checked + .slider:before {
   width: fit-content;
   cursor: pointer;
   transition: all 0.2s ease;
+  user-select: none;
 }
 
 .mapping-tts-badge:hover {
   transform: translateY(-1px);
-  filter: brightness(1.15);
+  filter: brightness(1.2);
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.35);
 }
 
 .mapping-tts-badge.muted {
-  background: rgba(100, 116, 139, 0.15);
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  color: #94a3b8;
+  background: rgba(100, 116, 139, 0.15) !important;
+  border: 1px solid rgba(148, 163, 184, 0.25) !important;
+  color: #94a3b8 !important;
+  box-shadow: none !important;
+}
+
+.mapping-tts-badge.muted:hover {
+  background: rgba(100, 116, 139, 0.28) !important;
+  color: #e2e8f0 !important;
+  border-color: rgba(148, 163, 184, 0.45) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
 }
 
 .mapping-item-controls {
@@ -2301,6 +2311,7 @@ input:checked + .slider:before {
 .slider-standalone-viewport {
   width: 100vw;
   height: 100vh;
+  max-height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2309,6 +2320,7 @@ input:checked + .slider:before {
   padding: 0 14px;
   background: transparent;
   user-select: none;
+  contain: content;
 }
 
 /* THEMES */
@@ -2467,14 +2479,35 @@ input:checked + .slider:before {
   text-transform: uppercase;
 }
 
-/* TRACK & TICKER CONTAINER */
+/* TRACK & TICKER CONTAINER - OPTIMIZED FOR TIKTOK LIVE STUDIO (ZERO MEMORY LEAK) */
 .slider-standalone-track-container {
   flex: 1;
   overflow: hidden;
-  mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+  position: relative;
   display: flex;
   align-items: center;
+  contain: paint;
+}
+
+.slider-standalone-track-container::before,
+.slider-standalone-track-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.slider-standalone-track-container::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.4), transparent);
+}
+
+.slider-standalone-track-container::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.4), transparent);
 }
 
 .slider-standalone-track {
@@ -2483,6 +2516,7 @@ input:checked + .slider:before {
   width: max-content;
   animation: standaloneSliderMarquee linear infinite;
   will-change: transform;
+  transform: translateZ(0);
 }
 
 @keyframes standaloneSliderMarquee {

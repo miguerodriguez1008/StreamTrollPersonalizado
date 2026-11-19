@@ -63,8 +63,8 @@ const TRANSLATIONS = {
     eventsTab: 'Eventos',
     giftsSubText: 'Configura qué efectos se activan cuando recibes regalos específicos o por umbral de monedas',
     eventsSubText: 'Configura qué efectos se activan con eventos de TikTok Live (Follow, Share, Likes, etc.)',
-    addMapping: '+ Agregar Mapeo',
-    byCoins: '+ Por Monedas',
+    addMapping: 'Agregar Mapeo',
+    byCoins: 'Por Monedas',
     combosLabel: 'Combos:',
     comboStreakEnd: 'Esperar final de racha (Recomendado)',
     comboEveryGift: 'Ejecutar cada regalo individual',
@@ -175,8 +175,8 @@ const TRANSLATIONS = {
     eventsTab: 'Events',
     giftsSubText: 'Configure which effects trigger when you receive specific gifts or coin thresholds',
     eventsSubText: 'Configure which effects trigger with TikTok Live events (Follow, Share, Likes, etc.)',
-    addMapping: '+ Add Mapping',
-    byCoins: '+ By Coins',
+    addMapping: 'Add Mapping',
+    byCoins: 'By Coins',
     combosLabel: 'Combos:',
     comboStreakEnd: 'Wait for streak end (Recommended)',
     comboEveryGift: 'Trigger on every single gift',
@@ -287,8 +287,8 @@ const TRANSLATIONS = {
     eventsTab: 'Eventos',
     giftsSubText: 'Configure quais efeitos são ativados com presentes específicos ou por moedas',
     eventsSubText: 'Configure quais efeitos são ativados com eventos do TikTok Live (Follow, Share, etc.)',
-    addMapping: '+ Adicionar Mapeamento',
-    byCoins: '+ Por Moedas',
+    addMapping: 'Adicionar Mapeamento',
+    byCoins: 'Por Moedas',
     combosLabel: 'Combos:',
     comboStreakEnd: 'Aguardar fim do combo (Recomendado)',
     comboEveryGift: 'Disparar a cada presente individual',
@@ -609,7 +609,7 @@ export const DEFAULT_GIFT_GRAPHICS = [
     triggerGift: 'Rocket',
     triggerCoins: 1000,
     icon: '🚀',
-    image: 'https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/9010f37d363768b5982e5b7e23114d72.png~tplv-obj.webp',
+    image: 'https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/e4037b9a67b7ffcdeeed11cbaeb26489.png~tplv-obj.webp',
     animationType: 'rocket',
     particleCount: 1,
     duration: 5,
@@ -622,7 +622,7 @@ export const DEFAULT_GIFT_GRAPHICS = [
     triggerGift: 'Heart',
     triggerCoins: 10,
     icon: '💖',
-    image: 'https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/3aa19302bf376f926ad5523992b861fe.png~tplv-obj.webp',
+    image: 'https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/composed.b1bb32764916a49baa560ac2a6eff55d.png~tplv-resize:258:258.webp',
     animationType: 'burst',
     particleCount: 30,
     duration: 4,
@@ -715,7 +715,16 @@ function Dashboard() {
       const saved = localStorage.getItem('stream_troll_gift_graphics');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          // Auto-repair known broken CDN urls from old cache
+          return parsed.map((item) => {
+            const def = DEFAULT_GIFT_GRAPHICS.find((d) => d.id === item.id || d.name === item.name);
+            if (def && (!item.image || item.image.includes('9010f37d') || item.image.includes('3aa19302'))) {
+              return { ...item, image: def.image };
+            }
+            return item;
+          });
+        }
       }
       return DEFAULT_GIFT_GRAPHICS;
     } catch {
@@ -769,19 +778,22 @@ function Dashboard() {
     } catch { }
   };
 
-  // Inline Rename state for Mapped Gifts (sets the name that appears on the OBS streamer slider)
+  // Inline Rename state for Mapped Gifts (sets the name that appears on the OBS streamer slider and TTS voice)
   const [editingMappingId, setEditingMappingId] = useState(null);
   const [editingLabelText, setEditingLabelText] = useState('');
+  const [editingTts, setEditingTts] = useState(false);
   const [selectedCustomLabel, setSelectedCustomLabel] = useState('');
 
   const startEditingMapping = (mapping) => {
     setEditingMappingId(mapping.id);
     setEditingLabelText(mapping.customLabel || mapping.giftName || '');
+    setEditingTts(Boolean(mapping.tts));
   };
 
   const cancelEditingMapping = () => {
     setEditingMappingId(null);
     setEditingLabelText('');
+    setEditingTts(false);
   };
 
   const saveEditingMapping = (mappingId) => {
@@ -791,7 +803,8 @@ function Dashboard() {
         if (m.id === mappingId) {
           return {
             ...m,
-            customLabel: trimmed || m.giftName
+            customLabel: trimmed || m.giftName,
+            tts: editingTts
           };
         }
         return m;
@@ -809,7 +822,8 @@ function Dashboard() {
     });
     setEditingMappingId(null);
     setEditingLabelText('');
-    showToast(`✅ Nombre en slider actualizado: "${trimmed || 'Por defecto'}"`);
+    setEditingTts(false);
+    showToast(`✅ Mapeo actualizado correctamente`);
   };
 
   // TikTok Live Connection State
@@ -2075,8 +2089,13 @@ function Dashboard() {
     setGiftMappings([...data]);
     try {
       localStorage.setItem('stream_troll_mappings', JSON.stringify(data));
+      localStorage.setItem('stream_troll_gift_mappings', JSON.stringify(data));
     } catch { }
     persistConfigToDisk({ giftMappings: data });
+    try {
+      channel.postMessage({ type: 'ENGINE_CONFIG', giftMappings: data });
+    } catch { }
+    dispatchToOverlay({ type: 'ENGINE_CONFIG', giftMappings: data });
   };
 
   const saveEventMappings = (updated) => {
@@ -2086,6 +2105,10 @@ function Dashboard() {
       localStorage.setItem('stream_troll_event_mappings', JSON.stringify(data));
     } catch { }
     persistConfigToDisk({ eventMappings: data });
+    try {
+      channel.postMessage({ type: 'ENGINE_CONFIG', eventMappings: data });
+    } catch { }
+    dispatchToOverlay({ type: 'ENGINE_CONFIG', eventMappings: data });
   };
 
   const deleteGiftMapping = (id) => {
@@ -2108,6 +2131,36 @@ function Dashboard() {
   const toggleEventMapping = (id, enabled) => {
     const updated = eventMappings.map((m) => (m.id === id ? { ...m, enabled } : m));
     saveEventMappings(updated);
+  };
+
+  const toggleGiftTts = (id) => {
+    let nextTts = false;
+    let targetName = '';
+    const updated = giftMappings.map((m) => {
+      if (m.id === id) {
+        nextTts = !m.tts;
+        targetName = m.customLabel || m.giftName;
+        return { ...m, tts: nextTts };
+      }
+      return m;
+    });
+    saveGiftMappings(updated);
+    showToast(nextTts ? `🗣️ TTS activado para ${targetName}` : `🔇 TTS desactivado para ${targetName}`);
+  };
+
+  const toggleEventTts = (id) => {
+    let nextTts = false;
+    let targetName = '';
+    const updated = eventMappings.map((m) => {
+      if (m.id === id) {
+        nextTts = !m.tts;
+        targetName = m.eventName;
+        return { ...m, tts: nextTts };
+      }
+      return m;
+    });
+    saveEventMappings(updated);
+    showToast(nextTts ? `🗣️ TTS activado para ${targetName}` : `🔇 TTS desactivado para ${targetName}`);
   };
 
   const saveGiftGraphics = (updated) => {
@@ -3258,7 +3311,7 @@ function Dashboard() {
                     title="Crea una regla que se active con cualquier regalo que supere X monedas"
                   >
                     <span>🪙</span>
-                    <span>{t.byCoins || '+ Por Monedas'}</span>
+                    <span>+ {t.byCoins || 'Por Monedas'}</span>
                   </button>
 
                   <button
@@ -3767,6 +3820,18 @@ function Dashboard() {
                                 Cancelar
                               </button>
                             </div>
+
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '4px' }}>
+                              <label style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.85rem', color: '#e2e8f0', fontWeight: 700 }}>
+                                <input
+                                  type="checkbox"
+                                  checked={editingTts}
+                                  onChange={(e) => setEditingTts(e.target.checked)}
+                                  style={{ width: '17px', height: '17px', cursor: 'pointer', accentColor: '#10b981' }}
+                                />
+                                <span>🗣️ Activar Voz Narradora (TTS) para este regalo</span>
+                              </label>
+                            </div>
                           </div>
                         ) : (
                           <>
@@ -3784,7 +3849,7 @@ function Dashboard() {
                                   <button
                                     type="button"
                                     onClick={() => startEditingMapping(m)}
-                                    title="Haz clic para personalizar el texto que sale en el Slider de OBS"
+                                    title="Haz clic para personalizar el texto que sale en el Slider de OBS y la voz TTS"
                                     style={{
                                       background: 'rgba(56, 189, 248, 0.15)',
                                       border: '1px solid rgba(56, 189, 248, 0.5)',
@@ -3817,7 +3882,33 @@ function Dashboard() {
                               <div className="mapping-effect-badge">
                                 <span>✨</span> {m.effect.toUpperCase()} ({m.duration}s)
                               </div>
-                              {m.tts && <div className="mapping-tts-badge">🗣️ TTS Activo</div>}
+                              <button
+                                type="button"
+                                className={`mapping-tts-badge ${m.tts ? '' : 'muted'}`}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleGiftTts(m.id);
+                                }}
+                                title={m.tts ? '🗣️ TTS Activado — Haz clic para Desactivar la voz' : '🔇 TTS Desactivado — Haz clic para Activar la voz'}
+                                style={{
+                                  cursor: 'pointer',
+                                  border: m.tts ? '1px solid rgba(16, 185, 129, 0.45)' : '1px solid rgba(148, 163, 184, 0.25)',
+                                  background: m.tts ? 'rgba(16, 185, 129, 0.16)' : 'rgba(100, 116, 139, 0.15)',
+                                  color: m.tts ? '#34d399' : '#94a3b8',
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '6px',
+                                  padding: '4px 10px',
+                                  borderRadius: '8px',
+                                  fontSize: '0.75rem',
+                                  fontWeight: 700,
+                                  transition: 'all 0.2s ease',
+                                  outline: 'none',
+                                  boxShadow: m.tts ? '0 0 10px rgba(16, 185, 129, 0.2)' : 'none'
+                                }}
+                              >
+                                {m.tts ? '🗣️ TTS Activo' : '🔇 Sin TTS'}
+                              </button>
                             </div>
 
                             <div className="mapping-item-controls">
@@ -3897,7 +3988,33 @@ function Dashboard() {
                           <div className="mapping-effect-badge">
                             <span>✨</span> {m.effect.toUpperCase()} ({m.duration}s)
                           </div>
-                          {m.tts && <div className="mapping-tts-badge">🗣️ TTS Activo</div>}
+                          <button
+                            type="button"
+                            className={`mapping-tts-badge ${m.tts ? '' : 'muted'}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleEventTts(m.id);
+                            }}
+                            title={m.tts ? '🗣️ TTS Activado — Haz clic para Desactivar la voz' : '🔇 TTS Desactivado — Haz clic para Activar la voz'}
+                            style={{
+                              cursor: 'pointer',
+                              border: m.tts ? '1px solid rgba(16, 185, 129, 0.45)' : '1px solid rgba(148, 163, 184, 0.25)',
+                              background: m.tts ? 'rgba(16, 185, 129, 0.16)' : 'rgba(100, 116, 139, 0.15)',
+                              color: m.tts ? '#34d399' : '#94a3b8',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              padding: '4px 10px',
+                              borderRadius: '8px',
+                              fontSize: '0.75rem',
+                              fontWeight: 700,
+                              transition: 'all 0.2s ease',
+                              outline: 'none',
+                              boxShadow: m.tts ? '0 0 10px rgba(16, 185, 129, 0.2)' : 'none'
+                            }}
+                          >
+                            {m.tts ? '🗣️ TTS Activo' : '🔇 Sin TTS'}
+                          </button>
                         </div>
 
                         <div className="mapping-item-controls">

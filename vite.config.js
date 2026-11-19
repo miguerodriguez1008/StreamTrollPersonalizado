@@ -104,5 +104,5 @@ function overlayBridgePlugin() {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), overlayBridgePlugin()],
-  base: process.env.ELECTRON_BUILD === 'true' ? './' : '/',
+  base: process.env.VERCEL ? '/' : './',
 })
